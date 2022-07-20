@@ -308,7 +308,6 @@ class Experiment(object):
             time.sleep(0.5)
             pass
 
-
     def runExperiment(self):
         print('Experiment')
         self.saveconfig()
