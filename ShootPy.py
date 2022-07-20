@@ -273,6 +273,10 @@ class Experiment(object):
         self.arduino.write([2])
         return
 
+    def classifier(self, *args):
+        pass
+
+
     def runExperiment(self):
         print('Experiment')
         self.saveconfig()
@@ -280,6 +284,7 @@ class Experiment(object):
         self.win.flip()
         self.waitSwitch()
 
+        # Training Trials
         if self.train_trial:
             for k in np.arange(0, len(self.train_trial), 1):
                 for lines in self.arduino.readline(): pass
@@ -302,7 +307,7 @@ class Experiment(object):
             self.win.flip()
             self.waitSwitch()
 
-        #Experiment Trial
+        # Experiment Trial
         for block in range(self.expInfo['n blocks']):
             #variables in the block
             trials = self.trials[block]
