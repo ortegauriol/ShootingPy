@@ -1,0 +1,12 @@
+Participant code: 0
+Countdown: True
+Trial by Trial feedback : True
+Stepsize (ms) : 33
+Stepsize (ms - Adjusted for frame rate) : 33.32271000108449
+Stop limit (ms) : 150
+Stop limit (ms - adjusted for frame rate) : 150.24920325008134
+StopS start pos. (ms) : 300
+ StopS start pos. (ms adjusted for frame rate; note this will change dynamically on each trial) : 499.8406500162673
+Total bar height (cm): 15
+
+ Now logging actual trial velocity of each trial (based on recorded frame durations)...
