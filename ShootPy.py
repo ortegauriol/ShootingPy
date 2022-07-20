@@ -367,6 +367,7 @@ class Experiment(object):
                     #Build a classifier for the non-shock trials
                     self.Correct.draw()
                     self.win.flip()
+                    sleep.time(0.5)
                     pass
                 self.win.flip()
                 #Save the trials/info
