@@ -273,8 +273,40 @@ class Experiment(object):
         self.arduino.write([2])
         return
 
-    def classifier(self, *args):
-        pass
+    def classifier(self, shock, trial, block):
+
+        # Classify for Shock
+        if self.RT > self.expInfo['Threat Response'] and shock == 1 and \
+                trial == 1 and block == 1:
+            self.electroshock()
+            self.Incorrect.draw()
+            self.win.flip()
+            time.sleep(0.5)
+        elif self.RT < self.expInfo['Response End Time'] and shock == 1 and \
+                trial == 0 and block == 1:
+            self.electroshock()
+            self.Incorrect.draw()
+            self.win.flip()
+            time.sleep(0.5)
+
+        #Shoot trial
+        if self.RT > self.expInfo['Threat Response'] and shock >= 0 and \
+                trial == 1 and block == 0:
+            self.Incorrect.draw()
+            self.win.flip()
+            time.sleep(0.5)
+
+        elif self.RT < self.expInfo['Response End Time'] and shock >= 0 and \
+                trial == 0 and block == 0:
+            self.Incorrect.draw()
+            self.win.flip()
+            time.sleep(0.5)
+        else:
+            # Build a classifier for the non-shock trials
+            self.Correct.draw()
+            self.win.flip()
+            time.sleep(0.5)
+            pass
 
 
     def runExperiment(self):
@@ -358,22 +390,8 @@ class Experiment(object):
                     if int(self.trialClock.getTime()) >= self.expInfo['Response End Time']:
                         break
                 #Classify the reaction time
-                if self.RT > self.expInfo['Threat Response'] and shock[k] == 1 and\
-                        trials[k] == 1 and self.blocks[block] == 1:
-                    self.electroshock()
-                    self.Incorrect.draw()
-                    self.win.flip()
-                elif self.RT < self.expInfo['Response End Time'] and shock[k] == 1 and\
-                        trials[k] == 0 and self.blocks[block] == 1:
-                    self.electroshock()
-                    self.Incorrect.draw()
-                    self.win.flip()
-                else:
-                    #Build a classifier for the non-shock trials
-                    self.Correct.draw()
-                    self.win.flip()
-                    sleep.time(0.5)
-                    pass
+                self.classifier(shock[k], trials[k], self.blocks[block])
+
                 self.win.flip()
                 #Save the trials/info
                 self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block])
