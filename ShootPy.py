@@ -30,8 +30,8 @@ class Experiment(object):
     def __init__(self):
         # Arduino & Serial port configuration
         psychopy.prefs.hardware['audioLib'] = ['PTB', 'pyo', 'pygame']
-        self.arduino = serial.Serial('COM13', 9600, timeout=0)
-        self.line = self.arduino.readline()
+        # self.arduino = serial.Serial('COM13', 9600, timeout=0)
+        # self.line = self.arduino.readline()
         self.countdown_clock = core.Clock()
         self.trialClock = core.Clock()
         self.delay = []
@@ -161,7 +161,7 @@ class Experiment(object):
         self.expInfo = {'Participant code': 0000,'Session':00, 'Age (Years)': 00, 'Gender': ['M', 'F', 'Other'],
                         'n_go_trials (per block)': 3, 'n_stop_trials (per block)': 1, 'n blocks': 3,
                           'practice trials': True, 'n practice go trials': 1,
-                          'n practice stop trials': 1, 'Full Screen': False, 'Keyboard': False,
+                          'n practice stop trials': 1, 'Full Screen': False, 'Keyboard': True,
                         'Threat Mode': True, 'Threat Response': 0.5,
                         'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5 }
         self.expName = 'Shoot'
@@ -261,6 +261,11 @@ class Experiment(object):
         #time.sleep(1)
         return self.RT
 
+    def wait_keyboard(self):
+        while True:
+            if keyboard.is_pressed("space"):
+                return
+
     def keyboarding(self):
         while True:
             if keyboard.is_pressed("space"):
@@ -326,7 +331,7 @@ class Experiment(object):
         self.saveconfig()
         self.Instructions.draw()
         self.win.flip()
-        self.waitSwitch()
+        self.wait_keyboard()
 
         # Training Trials
         if self.train_trial:
