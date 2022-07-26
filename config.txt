@@ -248,3 +248,33 @@
 {'Participant code': 0, 'Age (Years)': 0, 'Gender': 'M', 'n_go_trials (per block)': 3, 'n_stop_trials (per block)': 1, 'n blocks': 3, 'practice trials': True, 'n practice go trials': 1, 'n practice stop trials': 1, 'Full Screen': True, 'Threat Mode': True, 'Threat Response': 500, 'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5, 'date': '2022-07-04_12h57.39.438'}  
 [[1.5, 1.5, 1.5, 2.5], [1.5, 2.5, 2, 1.5], [2, 2, 2.5, 2]]   
 [0, 0, 1]
+[[1, 0, 1, 0], [0, 0, 1, 1], [1, 1, 0, 0]]  
+[[1, 0, 1, 1], [1, 1, 0, 1], [1, 1, 1, 0]]  
+{'Participant code': 0, 'Session': 0, 'Age (Years)': 0, 'Gender': 'M', 'n_go_trials (per block)': 3, 'n_stop_trials (per block)': 1, 'n blocks': 3, 'practice trials': True, 'n practice go trials': 1, 'n practice stop trials': 1, 'Full Screen': False, 'Keyboard': True, 'Threat Mode': True, 'Threat Response': 0.5, 'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5, 'date': '2022-07-26_20h17.51.535'}  
+[[2.5, 2.5, 2.5, 1.5], [1.5, 2.5, 2, 2], [2, 2, 2.5, 2]]   
+[0, 0, 1]
+[[1, 0, 0, 1], [0, 1, 1, 0], [0, 0, 1, 1]]  
+[[1, 1, 0, 1], [1, 1, 0, 1], [1, 1, 0, 1]]  
+{'Participant code': 0, 'Session': 0, 'Age (Years)': 0, 'Gender': 'M', 'n_go_trials (per block)': 3, 'n_stop_trials (per block)': 1, 'n blocks': 3, 'practice trials': True, 'n practice go trials': 1, 'n practice stop trials': 1, 'Full Screen': False, 'Keyboard': True, 'Threat Mode': True, 'Threat Response': 0.5, 'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5, 'date': '2022-07-26_20h18.45.053'}  
+[[2, 2, 2, 2], [1.5, 2, 2, 1.5], [2.5, 1.5, 2, 2.5]]   
+[0, 0, 1]
+[[1, 1, 0, 0], [1, 0, 1, 0], [1, 0, 0, 1]]  
+[[1, 1, 0, 1], [1, 1, 0, 1], [1, 1, 0, 1]]  
+{'Participant code': 0, 'Session': 0, 'Age (Years)': 0, 'Gender': 'M', 'n_go_trials (per block)': 3, 'n_stop_trials (per block)': 1, 'n blocks': 3, 'practice trials': True, 'n practice go trials': 1, 'n practice stop trials': 1, 'Full Screen': False, 'Keyboard': True, 'Threat Mode': True, 'Threat Response': 0.5, 'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5, 'date': '2022-07-26_20h21.01.144'}  
+[[2, 2.5, 2, 1.5], [2.5, 1.5, 2, 2.5], [2, 2, 2, 1.5]]   
+[0, 1, 0]
+[[0, 0, 0, 1, 0, 0, 1, 1, 1, 1], [0, 1, 0, 1, 0, 0, 0, 1, 1, 1], [1, 1, 1, 1, 0, 1, 0, 0, 0, 0]]  
+[[1, 1, 0, 0, 1, 1, 0, 0, 0, 1], [1, 0, 1, 0, 0, 1, 1, 1, 0, 0], [0, 1, 1, 0, 1, 0, 1, 0, 1, 0]]  
+{'Participant code': 0, 'Session': 0, 'Age (Years)': 0, 'Gender': 'M', 'n_go_trials (per block)': 5, 'n_stop_trials (per block)': 5, 'n blocks': 3, 'practice trials': True, 'n practice go trials': 1, 'n practice stop trials': 1, 'Full Screen': False, 'Keyboard': True, 'Threat Mode': True, 'Threat Response': 0.5, 'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5, 'date': '2022-07-26_20h24.44.114'}  
+[[2, 1.5, 1.5, 2.5, 1.5, 2, 1.5, 1.5, 2, 2.5], [1.5, 2.5, 1.5, 2, 1.5, 1.5, 2, 2.5, 1.5, 1.5], [1.5, 1.5, 1.5, 2, 2.5, 2, 2, 2, 2, 2.5]]   
+[0, 0, 1]
+[[0, 1, 0, 1], [1, 0, 0, 1], [0, 0, 1, 1]]  
+[[1, 1, 1, 0], [0, 1, 1, 1], [0, 1, 1, 1]]  
+{'Participant code': 0, 'Session': 0, 'Age (Years)': 0, 'Gender': 'M', 'n_go_trials (per block)': 3, 'n_stop_trials (per block)': 1, 'n blocks': 3, 'practice trials': True, 'n practice go trials': 1, 'n practice stop trials': 1, 'Full Screen': False, 'Keyboard': True, 'Threat Mode': True, 'Threat Response': 0.5, 'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5, 'date': '2022-07-26_20h26.48.269'}  
+[[2.5, 2, 2, 1.5], [2, 2, 2.5, 2.5], [1.5, 2.5, 2.5, 2]]   
+[0, 0, 1]
+[[0, 1, 0, 0, 0, 1, 1, 0, 1, 1], [1, 0, 0, 1, 0, 0, 1, 1, 1, 0], [0, 0, 1, 0, 1, 0, 1, 0, 1, 1]]  
+[[1, 1, 0, 0, 0, 0, 1, 1, 1, 0], [1, 1, 1, 0, 0, 0, 1, 1, 0, 0], [1, 1, 1, 1, 0, 0, 0, 0, 0, 1]]  
+{'Participant code': 0, 'Session': 0, 'Age (Years)': 0, 'Gender': 'M', 'n_go_trials (per block)': 5, 'n_stop_trials (per block)': 5, 'n blocks': 3, 'practice trials': True, 'n practice go trials': 5, 'n practice stop trials': 5, 'Full Screen': False, 'Keyboard': True, 'Threat Mode': True, 'Threat Response': 0.5, 'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5, 'date': '2022-07-26_20h27.59.175'}  
+[[1.5, 1.5, 2.5, 2, 2.5, 2.5, 2, 1.5, 2.5, 2.5], [1.5, 1.5, 2.5, 1.5, 1.5, 1.5, 2, 2, 1.5, 2.5], [2.5, 1.5, 2, 2, 1.5, 2, 2.5, 1.5, 2.5, 2]]   
+[0, 0, 1]

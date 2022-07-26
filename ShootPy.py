@@ -65,11 +65,11 @@ class Experiment(object):
             # blendMode='avg', mouseVisible = False, allowGUI=False)
             blendMode='avg', allowGUI=False)
         #Instructions
-        self.Break  = visual.ImageStim(self.win, image='Images/Slides' + os.sep + 'Break.jpg')
-        self.Correct  = visual.ImageStim(self.win, image='Images/Slides' + os.sep + 'Correct.jpg')
-        self.Incorrect  = visual.ImageStim(self.win, image='Images/Slides' + os.sep + 'Incorrect.jpg')
-        self.Instructions  = visual.ImageStim(self.win, image='Images/Slides' + os.sep + 'Instructions.jpg')
-        self.Trigger  = visual.ImageStim(self.win, image='Images/Slides' + os.sep + 'Trigger.jpg')
+        self.Break  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Break.jpg')
+        self.Correct  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Correct.jpg')
+        self.Incorrect  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Incorrect.jpg')
+        self.Instructions  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Instructions.jpg')
+        self.Trigger  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Trigger.jpg')
         
         #Backgrounnd
         self.range.append(visual.ImageStim(self.win, image='Images/Background' + os.sep + 'Bedroom.jpg'))
@@ -269,8 +269,10 @@ class Experiment(object):
     def keyboarding(self):
         while True:
             if keyboard.is_pressed("space"):
-                self.RT == self.trialClock.getTime()
+                self.RT = self.trialClock.getTime()
                 return self.RT
+            elif int(self.trialClock.getTime()) >= self.expInfo['Response End Time']:
+                return
 
     def electroshock(self):
         print('shock')
@@ -336,18 +338,18 @@ class Experiment(object):
         # Training Trials
         if self.train_trial:
             for k in np.arange(0, len(self.train_trial), 1):
-                for lines in self.arduino.readline(): pass
+                # for lines in self.arduino.readline(): pass
                 print('Practice Trial')
                 self.range[0].draw()
                 self.win.flip()
                 time.sleep(2)
                 if self.train_trial[k] == 0:
-                    self.nthreat_bedroom[random.randint(0, 5)].draw()
+                    self.nthreat_bedroom[random.randint(0, 1)].draw()
                 else:
-                    self.threat_bedroom[random.randint(0, 5)].draw()
+                    self.threat_bedroom[random.randint(0, 1)].draw()
                 self.win.flip()
                 self.trialClock.reset()
-                self.trigger()
+                self.keyboarding()
                 print('Practice RT = ', self.RT)
                 time.sleep(2)
                 self.win.flip()
