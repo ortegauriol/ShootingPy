@@ -164,7 +164,7 @@ class Experiment(object):
                         'n_go_trials (per block)': 3, 'n_stop_trials (per block)': 1, 'n blocks': 3,
                           'practice trials': True, 'n practice go trials': 1,
                           'n practice stop trials': 1, 'Full Screen': False,
-                        'Threat Mode': True, 'Threat Response': 500,
+                        'Threat Mode': True, 'Threat Response': 0.5,
                         'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5 }
         self.expName = 'Shoot'
         dlg = gui.DlgFromDict(dictionary=self.expInfo, title='Participant Information', tip=None)
@@ -278,35 +278,44 @@ class Experiment(object):
         # Classify for Shock
         if self.RT > self.expInfo['Threat Response'] and shock == 1 and \
                 trial == 1 and block == 1:
+            print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
+            print (self.RT)
             self.electroshock()
             self.Incorrect.draw()
             self.win.flip()
-            time.sleep(0.5)
+            time.sleep(1)
         elif self.RT < self.expInfo['Response End Time'] and shock == 1 and \
                 trial == 0 and block == 1:
+            print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
+            print (self.RT)
             self.electroshock()
             self.Incorrect.draw()
             self.win.flip()
-            time.sleep(0.5)
+            time.sleep(1)
 
         #Shoot trial
-        if self.RT > self.expInfo['Threat Response'] and shock >= 0 and \
-                trial == 1 and block == 0:
+        if self.RT > self.expInfo['Threat Response'] and trial == 1:
+            print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
+            print (self.RT)
             self.Incorrect.draw()
             self.win.flip()
-            time.sleep(0.5)
+            time.sleep(1)
 
         elif self.RT < self.expInfo['Response End Time'] and shock >= 0 and \
-                trial == 0 and block == 0:
+                trial == 0 and block >= 0:
+            print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
+            print (self.RT)
             self.Incorrect.draw()
             self.win.flip()
-            time.sleep(0.5)
+            time.sleep(1)
         else:
             # Build a classifier for the non-shock trials
+            print('else')
+            print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
+            print (self.RT)
             self.Correct.draw()
             self.win.flip()
-            time.sleep(0.5)
-            pass
+            time.sleep(1)
 
     def runExperiment(self):
         print('Experiment')

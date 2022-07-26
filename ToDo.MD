@@ -1,4 +1,18 @@
-TO - DO
+TO - DO (updated 26/07/22 12:17pm)
 
-- Add headears to file output
-- 
+Easy
+- Add headers to file output
+- Have the 'Break' image appear at the end of each block for ~60s followed by the 'Trigger' image 
+
+Develop
+- Keyboard version of the experiment (with all the images)
+- Trigger switch version of the experiment only needs two different 'Go' and 'NoGo' images and three of the background images
+- Statistics at the end of each block (only if not too tedious)
+
+
+Difficult?
+- Write code that allows participants to click a hyperlink in an email to auto download the open source python software and install it on their computer to make it easy for them to do the keyboard version of the experiment at home.
+
+
+Dan to do in lab Thurs (28/07/22)
+- Test experiment properly
