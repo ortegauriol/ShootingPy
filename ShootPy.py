@@ -1,7 +1,5 @@
 from __future__ import absolute_import, division
-
 import time
-
 import psychopy
 from psychopy import sound, gui, visual, core, data, event
 #from playsound import playsound
@@ -12,12 +10,12 @@ import pyglet
 import math
 import serial  #connecting to the serial port (Arduino)
 from argparse import ArgumentParser
-import copy
 import random
+import keyboard
 #import csv
 """
 
-created by criminal mastermind
+created by criminal mastermind "XD"
 p.ortegaauriol@auckland.ac.nz
 06/22
 
@@ -163,7 +161,7 @@ class Experiment(object):
         self.expInfo = {'Participant code': 0000,'Session':00, 'Age (Years)': 00, 'Gender': ['M', 'F', 'Other'],
                         'n_go_trials (per block)': 3, 'n_stop_trials (per block)': 1, 'n blocks': 3,
                           'practice trials': True, 'n practice go trials': 1,
-                          'n practice stop trials': 1, 'Full Screen': False,
+                          'n practice stop trials': 1, 'Full Screen': False, 'Keyboard': False,
                         'Threat Mode': True, 'Threat Response': 0.5,
                         'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5 }
         self.expName = 'Shoot'
@@ -262,6 +260,12 @@ class Experiment(object):
             #playsound(r"""D:/Work/Shoot or Don't Shoot/sound/Gunshot.mp3""")
         #time.sleep(1)
         return self.RT
+
+    def keyboarding(self):
+        while True:
+            if keyboard.is_pressed("space"):
+                self.RT == self.trialClock.getTime()
+                return self.RT
 
     def electroshock(self):
         print('shock')
