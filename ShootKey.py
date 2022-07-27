@@ -1,22 +1,16 @@
 from __future__ import absolute_import, division
 import time
 import psychopy
-from psychopy import sound, gui, visual, core, data, event
+from psychopy import visual, core, data
 from psychopy.hardware import keyboard
-#from playsound import playsound
-import numpy as np  # whole numpy lib is available, prepend 'np.'
-import os  # handy system and path functions
-import sys  # to get file system encoding
-import pyglet
+import numpy as np
+import os
 import math
-import serial  #connecting to the serial port (Arduino)
-from argparse import ArgumentParser
 import random
-# import keyboard
-#import csv
-"""
 
-created by criminal mastermind "XD"
+"""
+Keyboard version/branch of ShootPy.py 
+pls 
 p.ortegaauriol@auckland.ac.nz
 06/22
 
@@ -61,8 +55,8 @@ class Experiment(object):
             color=[-1, -1, -1], colorSpace='rgb',
             # blendMode='avg', mouseVisible = False, allowGUI=False)
             blendMode='avg', allowGUI=False)
+
         #Instructions
-        self.Break  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Break.jpg')
         self.Correct  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Correct.jpg')
         self.Incorrect  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Incorrect.jpg')
         self.Instructions  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Instructions.jpg')
@@ -83,34 +77,6 @@ class Experiment(object):
         self.threat_bedroom.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Bedroom Rifle L.jpg'))
         self.threat_bedroom.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Bedroom Rifle R.jpg'))
 
-        self.threat_dining.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Dining Room Machete L.jpg'))
-        self.threat_dining.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Dining Room Machete R.jpg'))
-        self.threat_dining.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Dining Room Pistol L.jpg'))
-        self.threat_dining.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Dining Room Pistol R.jpg'))
-        self.threat_dining.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Dining Room Rifle L.jpg'))
-        self.threat_dining.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Dining Room Rifle R.jpg'))
-
-        self.threat_gar.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Garage Machete L.jpg'))
-        self.threat_gar.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Garage Machete R.jpg'))
-        self.threat_gar.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Garage Pistol L.jpg'))
-        self.threat_gar.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Garage Pistol R.jpg'))
-        self.threat_gar.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Garage Rifle L.jpg'))
-        self.threat_gar.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Garage Rifle R.jpg'))
-
-        self.threat_kit.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Kitchen Machete L.jpg'))
-        self.threat_kit.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Kitchen Machete R.jpg'))
-        self.threat_kit.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Kitchen Pistol L.jpg'))
-        self.threat_kit.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Kitchen Pistol R.jpg'))
-        self.threat_kit.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Kitchen Rifle L.jpg'))
-        self.threat_kit.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Kitchen Rifle R.jpg'))
-
-        self.threat_lo.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Lounge Machete L.jpg'))
-        self.threat_lo.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Lounge Machete R.jpg'))
-        self.threat_lo.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Lounge Pistol L.jpg'))
-        self.threat_lo.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Lounge Pistol R.jpg'))
-        self.threat_lo.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Lounge Rifle L.jpg'))
-        self.threat_lo.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Lounge Rifle R.jpg'))
-
         #NOGO
 
         self.nthreat_bedroom.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Bedroom Cup L.jpg'))
@@ -120,33 +86,7 @@ class Experiment(object):
         self.nthreat_bedroom.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Bedroom Phone L.jpg'))
         self.nthreat_bedroom.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Bedroom Phone R.jpg'))
 
-        self.nthreat_dining.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Dining Room Cup L.jpg'))
-        self.nthreat_dining.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Dining Room Cup R.jpg'))
-        self.nthreat_dining.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Dining Room Keys L.jpg'))
-        self.nthreat_dining.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Dining Room Keys R.jpg'))
-        self.nthreat_dining.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Dining Room Phone L.jpg'))
-        self.nthreat_dining.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Dining Room Phone R.jpg'))
 
-        self.nthreat_gar.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Garage Cup L.jpg'))
-        self.nthreat_gar.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Garage Cup R.jpg'))
-        self.nthreat_gar.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Garage Keys L.jpg'))
-        self.nthreat_gar.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Garage Keys R.jpg'))
-        self.nthreat_gar.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Garage Phone L.jpg'))
-        self.nthreat_gar.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Garage Phone R.jpg'))
-
-        self.nthreat_kit.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Kitchen Cup L.jpg'))
-        self.nthreat_kit.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Kitchen Cup R.jpg'))
-        self.nthreat_kit.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Kitchen Keys L.jpg'))
-        self.nthreat_kit.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Kitchen Keys R.jpg'))
-        self.nthreat_kit.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Kitchen Phone L.jpg'))
-        self.nthreat_kit.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Kitchen Phone R.jpg'))
-
-        self.nthreat_lo.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Lounge Cup L.jpg'))
-        self.nthreat_lo.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Lounge Cup R.jpg'))
-        self.nthreat_lo.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Lounge Keys L.jpg'))
-        self.nthreat_lo.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Lounge Keys R.jpg'))
-        self.nthreat_lo.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Lounge Phone L.jpg'))
-        self.nthreat_lo.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Lounge Phone R.jpg'))
 
 
         #self.nothreat = visual.ImageStim(self.win, image='Images' + os.sep + 'NonThreat.jpg')
@@ -156,17 +96,17 @@ class Experiment(object):
     def Task(self):
         # Participant information
         self.expInfo = {'Participant code': 0000,'Session':00, 'Age (Years)': 00, 'Gender': ['M', 'F', 'Other'],
-                        'n_go_trials (per block)': 3, 'n_stop_trials (per block)': 1, 'n blocks': 3,
-                          'practice trials': True, 'n practice go trials': 1,
-                          'n practice stop trials': 1, 'Full Screen': False, 'Keyboard': True,
+                        'n_go_trials (per block)': 20, 'n_stop_trials (per block)': 5, 'n blocks': 3,
+                          'practice trials': False, 'n practice go trials': 0,
+                          'n practice stop trials': 0, 'Full Screen': False, 'Keyboard': True,
                         'Threat Mode': True, 'Threat Response': 0.5,
                         'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5 }
         self.expName = 'Shoot'
-        dlg = gui.DlgFromDict(dictionary=self.expInfo, title='Participant Information', tip=None)
-        if dlg.OK == False:
-            print('Closing port and exit')
-            self.arduino.close()
-            core.quit()
+        # dlg = gui.DlgFromDict(dictionary=self.expInfo, title='Participant Information', tip=None)
+        # if dlg.OK == False:
+        #     print('Closing port and exit')
+        #     self.arduino.close()
+        #     core.quit()
         self.expInfo['date'] = data.getDateStr()
         #dlg.Destroy()
         return
@@ -223,14 +163,6 @@ class Experiment(object):
         print('\nTrials', self.trials,'\nBlocks', self.blocks, '\nDelay', self.delay, '\nThreat', self.shock)
         print('Background = ', self.background)
 
-    def countdown(self):  # give countdown and if finger is lifted say this is too soon and restart
-        if self.expInfo['CountDown']:
-            self.countdown_clock.reset()
-            while int(self.countdown_clock.getTime()) < 4:
-                pass
-                #print(str(self.countdown_clock.getTime()))
-            return
-
     def wait_keyboard(self):
         kb = keyboard.Keyboard()
         for keys in kb.getKeys(['space']):
@@ -267,7 +199,6 @@ class Experiment(object):
         elif self.RT < self.expInfo['Response End Time'] and shock == 1 and \
                 trial == 0 and block == 1:
             print (self.RT)
-            self.electroshock()
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
@@ -361,15 +292,6 @@ class Experiment(object):
             b.write('\n %.4f    %s  %s  %s  %s  %s  %s	' % (RT, trial, shock, delay, block, self.expInfo['Participant code'],self.expInfo['Session']))
         # end trial wait time
         print('end trial wait')
-
-    def saveconfig(self):
-        with open('config' + '.txt', 'a') as b:
-            b.write('%s  \n%s  \n%s  \n%s   \n%s\n' %
-                    (self.shock, self.trials, self.expInfo, self.delay, self.blocks))
-
-    def stats(self):
-        #Read the saved file and do some stats with it for display.
-        pass
 
 
 if __name__ == "__main__":
