@@ -2,6 +2,7 @@ from __future__ import absolute_import, division
 import time
 import psychopy
 from psychopy import sound, gui, visual, core, data, event
+from psychopy.hardware import keyboard
 #from playsound import playsound
 import numpy as np  # whole numpy lib is available, prepend 'np.'
 import os  # handy system and path functions
@@ -11,7 +12,7 @@ import math
 import serial  #connecting to the serial port (Arduino)
 from argparse import ArgumentParser
 import random
-import keyboard
+# import keyboard
 #import csv
 """
 
@@ -28,10 +29,7 @@ os.chdir(_thisDir)
 class Experiment(object):
     print(os.getcwd())
     def __init__(self):
-        # Arduino & Serial port configuration
         psychopy.prefs.hardware['audioLib'] = ['PTB', 'pyo', 'pygame']
-        # self.arduino = serial.Serial('COM13', 9600, timeout=0)
-        # self.line = self.arduino.readline()
         self.countdown_clock = core.Clock()
         self.trialClock = core.Clock()
         self.delay = []
@@ -42,7 +40,7 @@ class Experiment(object):
         self.threat_gar = []
         self.threat_kit = []
         self.threat_lo = []
-
+        self.RT = []
         self.nthreat_bedroom = []
         self.nthreat_dining = []
         self.nthreat_gar = []
@@ -50,7 +48,6 @@ class Experiment(object):
         self.nthreat_lo = []
 
         self.background = []
-
         self.nothreat = []
         self.Task()
 
@@ -218,7 +215,6 @@ class Experiment(object):
             else:
                 self.shock.append([0] * int(len(i)))
 
-
         self.trials = [random.sample(i, len(i)) for i in self.trials]
         self.shock = [random.sample(i, len(i)) for i in self.shock]
         random.shuffle(self.blocks)
@@ -226,19 +222,6 @@ class Experiment(object):
         print('Practice Trials', self.train_trial)
         print('\nTrials', self.trials,'\nBlocks', self.blocks, '\nDelay', self.delay, '\nThreat', self.shock)
         print('Background = ', self.background)
-
-    def waitSwitch(self):
-        #line = self.arduino.readline()
-        line = []
-        print('Press Trigger to Start')
-        while len(line) == 0:
-            line = self.arduino.readline()
-            core.wait(0.1)
-        print('Switch')
-        self.arduino.flushInput()
-        time.sleep(0.1)
-        for lines in self.arduino.readline():pass
-        return
 
     def countdown(self):  # give countdown and if finger is lifted say this is too soon and restart
         if self.expInfo['CountDown']:
@@ -248,56 +231,41 @@ class Experiment(object):
                 #print(str(self.countdown_clock.getTime()))
             return
 
-    def trigger(self):
-        #line = self.arduino.readline()
-        line = []
-        while len(line) == 0:
-            line = self.arduino.readline()
-            if int(self.trialClock.getTime()) >= self.expInfo['Response End Time']:
-                break
-        self.RT =  self.trialClock.getTime()
-        #if not len(line) == 0:
-            #playsound(r"""D:/Work/Shoot or Don't Shoot/sound/Gunshot.mp3""")
-        #time.sleep(1)
-        return self.RT
-
     def wait_keyboard(self):
+        kb = keyboard.Keyboard()
+        for keys in kb.getKeys(['space']):
+            pass
+        keys = []
         while True:
-            if keyboard.is_pressed("space"):
+            keys = kb.getKeys(['space'], waitRelease=False, clear=True)
+            if keys:
                 return
 
     def keyboarding(self):
+        kb = keyboard.Keyboard()
+        for keys in kb.getKeys(['space']):
+            pass
+        keys = []
         while True:
-            if keyboard.is_pressed("space"):
+            keys = kb.getKeys(['space'], waitRelease=False, clear=True)
+            if keys:
                 self.RT = self.trialClock.getTime()
                 return self.RT
             elif int(self.trialClock.getTime()) >= self.expInfo['Response End Time']:
+                self.RT = self.trialClock.getTime()
                 return
-
-    def electroshock(self):
-        print('shock')
-        self.arduino.write([1])
-        return
-
-    def emg(self):
-        print('Start EMG Synch')
-        self.arduino.write([2])
-        return
 
     def classifier(self, shock, trial, block):
 
         # Classify for Shock
         if self.RT > self.expInfo['Threat Response'] and shock == 1 and \
                 trial == 1 and block == 1:
-            print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
             print (self.RT)
-            self.electroshock()
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
         elif self.RT < self.expInfo['Response End Time'] and shock == 1 and \
                 trial == 0 and block == 1:
-            print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
             print (self.RT)
             self.electroshock()
             self.Incorrect.draw()
@@ -306,23 +274,18 @@ class Experiment(object):
 
         #Shoot trial
         if self.RT > self.expInfo['Threat Response'] and trial == 1:
-            print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
             print (self.RT)
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
 
-        elif self.RT < self.expInfo['Response End Time'] and shock >= 0 and \
-                trial == 0 and block >= 0:
-            print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
+        elif self.RT < self.expInfo['Response End Time'] and trial == 0:
             print (self.RT)
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
         else:
             # Build a classifier for the non-shock trials
-            print('else')
-            print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
             print (self.RT)
             self.Correct.draw()
             self.win.flip()
@@ -330,7 +293,6 @@ class Experiment(object):
 
     def runExperiment(self):
         print('Experiment')
-        self.saveconfig()
         self.Instructions.draw()
         self.win.flip()
         self.wait_keyboard()
@@ -356,7 +318,7 @@ class Experiment(object):
                 time.sleep(3)
             print('End of Practice Trials')
             self.win.flip()
-            self.waitSwitch()
+            self.wait_keyboard()
 
         # Experiment Trial
         for block in range(self.expInfo['n blocks']):
@@ -365,42 +327,22 @@ class Experiment(object):
             delay = self.delay[block]
             shock = self.shock[block]
             background = self.background[block]
-            for lines in self.arduino.readline(): pass
+            # for lines in self.arduino.readline(): pass
             for k in np.arange(0, len(trials), 1):
-                for lines in self.arduino.readline(): pass
-                self.range[background[k]].draw()
+                self.range[0].draw()
                 self.win.flip()
                 time.sleep(delay[k])
 
                 #given the background and trial type show an according threat/no threat image/
                 if trials[k] == 0:
-                    if background[k] == 0:
-                        self.nthreat_bedroom[random.randint(0,5)].draw()
-                    elif background[k] == 1:
-                        self.nthreat_lo[random.randint(0, 5)].draw()
-                    elif background[k] == 2:
-                        self.nthreat_kit[random.randint(0, 5)].draw()
-                    elif background[k] == 3:
-                        self.nthreat_gar[random.randint(0, 5)].draw()
-                    elif background[k] == 4:
-                        self.nthreat_dining[random.randint(0, 5)].draw()
+                    self.nthreat_bedroom[random.randint(0, 2)].draw()
 
                 elif trials[k] == 1:
-                    if background[k] == 0:
-                        self.threat_bedroom[random.randint(0, 5)].draw()
-                    elif background[k] == 1:
-                        self.threat_lo[random.randint(0, 5)].draw()
-                    elif background[k] == 2:
-                        self.threat_kit[random.randint(0, 5)].draw()
-                    elif background[k] == 3:
-                        self.threat_gar[random.randint(0, 5)].draw()
-                    elif background[k] == 4:
-                        self.threat_dining[random.randint(0, 5)].draw()
+                    self.threat_bedroom[random.randint(0, 2)].draw()
 
                 self.win.flip()
-                self.emg()
                 self.trialClock.reset()
-                self.trigger()
+                self.keyboarding()
                 #Process response time for shock or feedback
                 print('RT = ', self.RT)
 
@@ -410,10 +352,7 @@ class Experiment(object):
                         break
                 #Classify the reaction time
                 self.classifier(shock[k], trials[k], self.blocks[block])
-
                 self.win.flip()
-                #Save the trials/info
-                self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block])
                 time.sleep(3)
 
     def savedata(self, RT, trial, shock, delay, block):
@@ -434,5 +373,4 @@ class Experiment(object):
 
 
 if __name__ == "__main__":
-    #parser = ArgumentParser(description=" FPS Shooter ")
     sa = Experiment()

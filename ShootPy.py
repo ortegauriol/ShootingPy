@@ -365,17 +365,17 @@ class Experiment(object):
             delay = self.delay[block]
             shock = self.shock[block]
             background = self.background[block]
-            for lines in self.arduino.readline(): pass
+            # for lines in self.arduino.readline(): pass
             for k in np.arange(0, len(trials), 1):
                 for lines in self.arduino.readline(): pass
-                self.range[background[k]].draw()
+                self.range[background[0]].draw()
                 self.win.flip()
                 time.sleep(delay[k])
 
                 #given the background and trial type show an according threat/no threat image/
                 if trials[k] == 0:
                     if background[k] == 0:
-                        self.nthreat_bedroom[random.randint(0,5)].draw()
+                        self.nthreat_bedroom[random.randint(0,2)].draw()
                     elif background[k] == 1:
                         self.nthreat_lo[random.randint(0, 5)].draw()
                     elif background[k] == 2:
@@ -387,7 +387,7 @@ class Experiment(object):
 
                 elif trials[k] == 1:
                     if background[k] == 0:
-                        self.threat_bedroom[random.randint(0, 5)].draw()
+                        self.threat_bedroom[random.randint(0, 2)].draw()
                     elif background[k] == 1:
                         self.threat_lo[random.randint(0, 5)].draw()
                     elif background[k] == 2:
@@ -413,7 +413,7 @@ class Experiment(object):
 
                 self.win.flip()
                 #Save the trials/info
-                self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block])
+                # self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block])
                 time.sleep(3)
 
     def savedata(self, RT, trial, shock, delay, block):
