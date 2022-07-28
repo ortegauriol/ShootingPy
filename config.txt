@@ -278,3 +278,8 @@
 {'Participant code': 0, 'Session': 0, 'Age (Years)': 0, 'Gender': 'M', 'n_go_trials (per block)': 3, 'n_stop_trials (per block)': 1, 'n blocks': 3, 'practice trials': False, 'n practice go trials': 1, 'n practice stop trials': 1, 'Full Screen': False, 'Threat Mode': True, 'Threat Response': 0.5, 'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5, 'date': '2022-07-28_15h17.06.289'}  
 [[2, 2, 2, 1.5], [2, 1.5, 1.5, 2], [2.5, 2.5, 2.5, 1.5]]   
 [0, 1, 0]
+[[0, 0, 1, 1], [1, 0, 1, 0], [1, 0, 0, 1]]  
+[[0, 1, 1, 1], [1, 1, 0, 1], [1, 0, 1, 1]]  
+{'Participant code': 0, 'Session': 0, 'Age (Years)': 0, 'Gender': 'M', 'n_go_trials (per block)': 3, 'n_stop_trials (per block)': 1, 'n blocks': 3, 'practice trials': True, 'n practice go trials': 1, 'n practice stop trials': 1, 'Full Screen': False, 'Threat Mode': True, 'Threat Response': 0.5, 'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5, 'date': '2022-07-28_15h55.27.610'}  
+[[2.5, 1.5, 1.5, 2.5], [1.5, 2, 2.5, 2.5], [2, 2.5, 2.5, 1.5]]   
+[1, 0, 0]
