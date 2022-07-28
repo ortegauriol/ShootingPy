@@ -434,6 +434,8 @@ class Experiment(object):
     def stats(self):
         # Generate block to block report stats as feedback.
         # df = pd.read_csv('DataFile' + str(self.expInfo['Participant code']) + str(self.expInfo['Session']) + '.txt')
+        print
+        # df.groupby('name').describe().reset_index().pivot(index='name', values='score', columns='level_1')
         pass
 
 if __name__ == "__main__":
