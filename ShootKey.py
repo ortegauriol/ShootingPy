@@ -7,6 +7,7 @@ import numpy as np
 import os
 import math
 import random
+import pandas as pd
 
 """
 Keyboard version/branch of ShootPy.py 
@@ -43,6 +44,7 @@ class Experiment(object):
 
         self.background = []
         self.nothreat = []
+        self.df = pd.DataFrame({"RT": [], "Trial": [], "Shock": [], "Delay": [], "Block": [], "PCode": [], "Session": []})
         self.Task()
 
         self.win = visual.Window(
@@ -282,7 +284,8 @@ class Experiment(object):
                         break
                 #Classify the reaction time
                 self.classifier(shock[k], trials[k], self.blocks[block])
-                self.win.flip()
+                # self.win.flip()
+                self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block])
                 time.sleep(3)
 
     def savedata(self, RT, trial, shock, delay, block):
@@ -291,6 +294,13 @@ class Experiment(object):
             b.write('\n %.4f    %s  %s  %s  %s  %s  %s	' % (RT, trial, shock, delay, block, self.expInfo['Participant code'],self.expInfo['Session']))
         # end trial wait time
         print('end trial wait')
+
+        df2 = pd.DataFrame({"RT": [RT], "Trial": [trial], "Shock": [shock], "Delay": [delay], "Block": [block],
+                            "PCode": [self.expInfo['Participant code']], "Session": [self.expInfo['Session']]})
+        pd.concat([self.df, df2])
+        self.df.to_csv(['DataFile' + str(self.expInfo['Participant code']) + ' ' + str(self.expInfo['Session'])],
+                       index=False)
+
 
 
 if __name__ == "__main__":
