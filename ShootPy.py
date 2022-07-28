@@ -423,7 +423,7 @@ class Experiment(object):
         df2 = pd.DataFrame({"RT":[RT], "Trial":[trial], "Shock":[shock], "Delay":[delay], "Block":[block], "PCode": [self.expInfo['Participant code']],
                         "Session": [self.expInfo['Session']]})
         pd.concat([self.df, df2])
-        self.df.to_csv(['DataFile' + str(self.expInfo['Participant code']) + ' ' + str(self.expInfo['Session'])], index=False)
+        # self.df.to_csv(['DataFile' + str(self.expInfo['Participant code']) + ' ' + str(self.expInfo['Session'])], index=False)
 
 
     def saveconfig(self):
