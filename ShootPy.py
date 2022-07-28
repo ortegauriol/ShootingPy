@@ -26,13 +26,12 @@ p.ortegaauriol@auckland.ac.nz
 _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 
-
 class Experiment(object):
     print(os.getcwd())
     def __init__(self):
         # Arduino & Serial port configuration
         psychopy.prefs.hardware['audioLib'] = ['PTB', 'pyo', 'pygame']
-        self.arduino = serial.Serial('COM13', 9600, timeout=0)
+        self.arduino = serial.Serial('COM7', 9600, timeout=0)
         self.line = self.arduino.readline()
         self.countdown_clock = core.Clock()
         self.trialClock = core.Clock()
@@ -67,11 +66,11 @@ class Experiment(object):
             # blendMode='avg', mouseVisible = False, allowGUI=False)
             blendMode='avg', allowGUI=False)
         #Instructions
-        self.Break  = visual.ImageStim(self.win, image='Images/Slides' + os.sep + 'Break.jpg')
-        self.Correct  = visual.ImageStim(self.win, image='Images/Slides' + os.sep + 'Correct.jpg')
-        self.Incorrect  = visual.ImageStim(self.win, image='Images/Slides' + os.sep + 'Incorrect.jpg')
-        self.Instructions  = visual.ImageStim(self.win, image='Images/Slides' + os.sep + 'Instructions.jpg')
-        self.Trigger  = visual.ImageStim(self.win, image='Images/Slides' + os.sep + 'Trigger.jpg')
+        self.Break  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Break.jpg')
+        self.Correct  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Correct.jpg')
+        self.Incorrect  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Incorrect.jpg')
+        self.Instructions  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Instructions.jpg')
+        self.Trigger  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Trigger.jpg')
         
         #Backgrounnd
         self.range.append(visual.ImageStim(self.win, image='Images/Background' + os.sep + 'Bedroom.jpg'))
@@ -173,7 +172,10 @@ class Experiment(object):
             self.arduino.close()
             core.quit()
         self.expInfo['date'] = data.getDateStr()
-        #dlg.Destroy()
+        header = "RT    Trial   Shock   Delay   block   code    session "
+        with open('DataFile' + str(self.expInfo['Participant code']) + str(self.expInfo['Session']) + '.txt', 'a') as b:
+            b.write(header + "\n")
+            b.close()
         return
 
     def Workflow(self):
@@ -404,6 +406,9 @@ class Experiment(object):
                 #Save the trials/info
                 self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block])
                 time.sleep(3)
+            self.Break.draw()
+            self.win.flip()
+            self.waitSwitch()
 
     def savedata(self, RT, trial, shock, delay, block):
         # Save Variables into a file
@@ -417,6 +422,9 @@ class Experiment(object):
             b.write('%s  \n%s  \n%s  \n%s   \n%s\n' %
                     (self.shock, self.trials, self.expInfo, self.delay, self.blocks))
 
+    def stats(self):
+        # Generate block to block report stats as feedback.
+        pass
 
 if __name__ == "__main__":
     #parser = ArgumentParser(description=" FPS Shooter ")
