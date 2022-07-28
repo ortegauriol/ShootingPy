@@ -88,21 +88,16 @@ class Experiment(object):
         self.nthreat_bedroom.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Bedroom Phone L.jpg'))
         self.nthreat_bedroom.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Bedroom Phone R.jpg'))
 
-
-
-
-        #self.nothreat = visual.ImageStim(self.win, image='Images' + os.sep + 'NonThreat.jpg')
-
         self.Workflow()
 
     def Task(self):
         # Participant information
-        self.expInfo = {'Participant code': 0000,'Session':00, 'Age (Years)': 00, 'Gender': ['M', 'F', 'Other'],
-                        'n_go_trials (per block)': 20, 'n_stop_trials (per block)': 5, 'n blocks': 3,
+        self.expInfo = {'Participant code': 3,'Session':00, 'Age (Years)': 00, 'Gender': ['M', 'F', 'Other'],
+                        'n_go_trials (per block)': 3, 'n_stop_trials (per block)': 1, 'n blocks': 2,
                           'practice trials': False, 'n practice go trials': 0,
                           'n practice stop trials': 0, 'Full Screen': False, 'Keyboard': True,
                         'Threat Mode': True, 'Threat Response': 0.5,
-                        'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5 }
+                        'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5}
         self.expName = 'Shoot'
         # dlg = gui.DlgFromDict(dictionary=self.expInfo, title='Participant Information', tip=None)
         # if dlg.OK == False:
@@ -110,7 +105,6 @@ class Experiment(object):
         #     self.arduino.close()
         #     core.quit()
         self.expInfo['date'] = data.getDateStr()
-        #dlg.Destroy()
         return
 
     def Workflow(self):
@@ -194,7 +188,6 @@ class Experiment(object):
         # Classify for Shock
         if self.RT > self.expInfo['Threat Response'] and shock == 1 and \
                 trial == 1 and block == 1:
-            print (self.RT)
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
@@ -202,7 +195,6 @@ class Experiment(object):
 
         elif self.RT < self.expInfo['Response End Time'] and shock == 1 and \
                 trial == 0 and block == 1:
-            print (self.RT)
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
@@ -210,14 +202,12 @@ class Experiment(object):
 
         #Shoot trial
         if self.RT > self.expInfo['Threat Response'] and trial == 1:
-            print (self.RT)
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
             self.result = 0
 
         elif self.RT < self.expInfo['Response End Time'] and trial == 0:
-            print (self.RT)
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
@@ -225,7 +215,6 @@ class Experiment(object):
 
         else:
             # Build a classifier for the non-shock trials
-            print (self.RT)
             self.Correct.draw()
             self.win.flip()
             time.sleep(1)
@@ -295,22 +284,24 @@ class Experiment(object):
                 # self.win.flip()
                 self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block], self.result)
                 time.sleep(3)
+            self.stats()
 
     def savedata(self, RT, trial, shock, delay, block, result):
         # Save Variables into a file
-        with open('DataFile' + str(self.expInfo['Participant code']) + str(self.expInfo['Session']) + '.txt', 'a') as b:
-            b.write('\n %.4f    %s  %s  %s  %s  %s  %s	' % (RT, trial, shock, delay, block, self.expInfo['Participant code'],self.expInfo['Session']))
-        # end trial wait time
-        print('end trial wait')
 
         df2 = pd.DataFrame({"RT": [RT], "Trial": [trial], "Shock": [shock], "Delay": [delay], "Block": [block],
                             "PCode": [self.expInfo['Participant code']], "Session": [self.expInfo['Session']],
                             "Outcome": [result]})
         self.df = pd.concat([self.df, df2])
-        self.df.to_csv('DataFile' + str(self.expInfo['Participant code']) + '_' + str(self.expInfo['Session']), index=False)
+        self.df.to_csv('DataFile' + str(self.expInfo['Participant code']) + '_' + str(self.expInfo['Session']) + '.csv', index=False)
 
     def stats(self):
         # Descriptive statistics at the end of the block.
+        df_group_one = self.df[['RT', 'Trial']]
+        # Make a plot
+        
+        df_group_one = df_group_one.groupby(['Trial'], as_index=False).mean()
+
 
         pass
 

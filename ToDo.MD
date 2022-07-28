@@ -2,7 +2,9 @@ TO - DO (updated 26/07/22 12:17pm)
 
 Easy
 - Add headers to file output, add them on the _init_ 
-- Have the 'Break' image appear at the end of each block for ~60s followed by the 'Trigger' image 
+- Have the 'Break' image appear at the end of each block for ~60s followed by the 'Trigger' image
+- Remove the black screen between trials so that the order is: background-person-correct/incorrect slide-background....etc... 
+- Figure out why shock was not working
 
 Develop
 - Keyboard version of the experiment (with all the images)
@@ -13,8 +15,3 @@ Develop
 
 Difficult?
 - Write code that allows participants to click a hyperlink in an email to auto download the open source python software and install it on their computer to make it easy for them to do the keyboard version of the experiment at home.
-
-
-Dan to do in lab Thurs (28/07/22)
-- Test experiment properly
-- 
