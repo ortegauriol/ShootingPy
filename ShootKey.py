@@ -11,7 +11,7 @@ import pandas as pd
 
 """
 Keyboard version/branch of ShootPy.py 
-pls 
+
 p.ortegaauriol@auckland.ac.nz
 06/22
 
@@ -44,7 +44,8 @@ class Experiment(object):
 
         self.background = []
         self.nothreat = []
-        self.df = pd.DataFrame({"RT": [], "Trial": [], "Shock": [], "Delay": [], "Block": [], "PCode": [], "Session": []})
+        self.df = pd.DataFrame({"RT": [], "Trial": [], "Shock": [], "Delay": [], "Block": [],
+                                "PCode": [], "Session": [], "Outcome": []})
         self.Task()
 
         self.win = visual.Window(
@@ -197,12 +198,15 @@ class Experiment(object):
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
+            self.result = 0
+
         elif self.RT < self.expInfo['Response End Time'] and shock == 1 and \
                 trial == 0 and block == 1:
             print (self.RT)
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
+            self.result = 0
 
         #Shoot trial
         if self.RT > self.expInfo['Threat Response'] and trial == 1:
@@ -210,18 +214,22 @@ class Experiment(object):
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
+            self.result = 0
 
         elif self.RT < self.expInfo['Response End Time'] and trial == 0:
             print (self.RT)
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
+            self.result = 0
+
         else:
             # Build a classifier for the non-shock trials
             print (self.RT)
             self.Correct.draw()
             self.win.flip()
             time.sleep(1)
+            self.result = 1
 
     def runExperiment(self):
         print('Experiment')
@@ -285,10 +293,10 @@ class Experiment(object):
                 #Classify the reaction time
                 self.classifier(shock[k], trials[k], self.blocks[block])
                 # self.win.flip()
-                self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block])
+                self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block], self.result)
                 time.sleep(3)
 
-    def savedata(self, RT, trial, shock, delay, block):
+    def savedata(self, RT, trial, shock, delay, block, result):
         # Save Variables into a file
         with open('DataFile' + str(self.expInfo['Participant code']) + str(self.expInfo['Session']) + '.txt', 'a') as b:
             b.write('\n %.4f    %s  %s  %s  %s  %s  %s	' % (RT, trial, shock, delay, block, self.expInfo['Participant code'],self.expInfo['Session']))
@@ -296,12 +304,15 @@ class Experiment(object):
         print('end trial wait')
 
         df2 = pd.DataFrame({"RT": [RT], "Trial": [trial], "Shock": [shock], "Delay": [delay], "Block": [block],
-                            "PCode": [self.expInfo['Participant code']], "Session": [self.expInfo['Session']]})
-        pd.concat([self.df, df2])
-        self.df.to_csv(['DataFile' + str(self.expInfo['Participant code']) + ' ' + str(self.expInfo['Session'])],
-                       index=False)
+                            "PCode": [self.expInfo['Participant code']], "Session": [self.expInfo['Session']],
+                            "Outcome": [result]})
+        self.df = pd.concat([self.df, df2])
+        self.df.to_csv('DataFile' + str(self.expInfo['Participant code']) + '_' + str(self.expInfo['Session']), index=False)
 
+    def stats(self):
+        # Descriptive statistics at the end of the block.
 
+        pass
 
 if __name__ == "__main__":
     sa = Experiment()
