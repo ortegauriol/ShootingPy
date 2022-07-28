@@ -78,7 +78,6 @@ class Experiment(object):
         self.threat_bedroom.append(visual.ImageStim(self.win, image='Images/go' + os.sep + 'Bedroom Rifle R.jpg'))
 
         #NOGO
-
         self.nthreat_bedroom.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Bedroom Cup L.jpg'))
         self.nthreat_bedroom.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Bedroom Cup R.jpg'))
         self.nthreat_bedroom.append(visual.ImageStim(self.win, image='Images/NoGo' + os.sep + 'Bedroom Keys L.jpg'))
