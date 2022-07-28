@@ -11,4 +11,16 @@ RT    Trial   Shock   Delay   block   code    session
  2.0000    1  0  2.5  1  0  0	
  2.0000    1  1  2.5  1  0  0	
  2.0001    0  1  2  1  0  0	
- 2.0007    1  0  2  1  0  0	
+ 2.0007    1  0  2  1  0  0
+
+RT    Trial   Shock   Delay   block   code    session 
+
+ 0.0003    1  1  2.5  1  0  0	RT    Trial   Shock   Delay   block   code    session 
+
+ 1.3344    1  0  2.5  0  0  0	RT    Trial   Shock   Delay   block   code    session 
+
+ 0.2803    1  1  2  0  0  0	RT    Trial   Shock   Delay   block   code    session 
+
+ 0.4287    1  1  2  0  0  0	RT    Trial   Shock   Delay   block   code    session 
+
+ 0.0028    0  0  2  0  0  0	

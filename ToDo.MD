@@ -2,7 +2,7 @@ TO - DO (updated 26/07/22 12:17pm)
 
 Easy
 - Have the 'Break' image appear at the end of each block for ~60s followed by the 'Trigger' image 
-	Better to leave this up to the trigger, people wont get really tired during the session. 
+	Better to leave the time up to the trigger rather than a constraint, people wont get really tired during the session. 
 	
 Develop
 - Keyboard version of the experiment (with all the images) - all the images? thought that it was a reduced version of it////

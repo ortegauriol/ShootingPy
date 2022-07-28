@@ -1,10 +1,8 @@
 from __future__ import absolute_import, division
-
 import time
-
 import psychopy
 from psychopy import sound, gui, visual, core, data, event
-#from playsound import playsound
+import pandas as pd
 import numpy as np  # whole numpy lib is available, prepend 'np.'
 import os  # handy system and path functions
 import sys  # to get file system encoding
@@ -54,6 +52,9 @@ class Experiment(object):
 
         self.nothreat = []
         self.Task()
+
+        #Panda data frame
+        self.df = pd.DataFrame({"RT": [], "Trial": [], "Shock": [], "Delay": [],"Block": [], "PCode": [], "Session": []})
 
         self.win = visual.Window(
             size= [1920, 1080],
@@ -181,6 +182,7 @@ class Experiment(object):
     def Workflow(self):
         self.gen_trials()
         # define the instructions for the task?
+        # self.stats()
         self.runExperiment()
 
     def gen_trials(self):
@@ -417,6 +419,13 @@ class Experiment(object):
         # end trial wait time
         print('end trial wait')
 
+        #Save pandas df
+        df2 = pd.DataFrame({"RT":[RT], "Trial":[trial], "Shock":[shock], "Delay":[delay], "Block":[block], "PCode": [self.expInfo['Participant code']],
+                        "Session": [self.expInfo['Session']]})
+        pd.concat([self.df, df2])
+        self.df.to_csv(['DataFile' + str(self.expInfo['Participant code']) + ' ' + str(self.expInfo['Session'])], index=False)
+
+
     def saveconfig(self):
         with open('config' + '.txt', 'a') as b:
             b.write('%s  \n%s  \n%s  \n%s   \n%s\n' %
@@ -424,6 +433,7 @@ class Experiment(object):
 
     def stats(self):
         # Generate block to block report stats as feedback.
+        # df = pd.read_csv('DataFile' + str(self.expInfo['Participant code']) + str(self.expInfo['Session']) + '.txt')
         pass
 
 if __name__ == "__main__":
