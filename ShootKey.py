@@ -8,6 +8,8 @@ import os
 import math
 import random
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 """
 Keyboard version/branch of ShootPy.py 
@@ -23,6 +25,7 @@ os.chdir(_thisDir)
 
 class Experiment(object):
     print(os.getcwd())
+
     def __init__(self):
         psychopy.prefs.hardware['audioLib'] = ['PTB', 'pyo', 'pygame']
         self.countdown_clock = core.Clock()
@@ -93,7 +96,7 @@ class Experiment(object):
     def Task(self):
         # Participant information
         self.expInfo = {'Participant code': 3,'Session':00, 'Age (Years)': 00, 'Gender': ['M', 'F', 'Other'],
-                        'n_go_trials (per block)': 3, 'n_stop_trials (per block)': 1, 'n blocks': 2,
+                        'n_go_trials (per block)': 6, 'n_stop_trials (per block)': 2, 'n blocks': 2,
                           'practice trials': False, 'n practice go trials': 0,
                           'n practice stop trials': 0, 'Full Screen': False, 'Keyboard': True,
                         'Threat Mode': True, 'Threat Response': 0.5,
@@ -283,7 +286,7 @@ class Experiment(object):
                 self.classifier(shock[k], trials[k], self.blocks[block])
                 # self.win.flip()
                 self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block], self.result)
-                time.sleep(3)
+                time.sleep(1)
             self.stats()
 
     def savedata(self, RT, trial, shock, delay, block, result):
@@ -297,10 +300,30 @@ class Experiment(object):
 
     def stats(self):
         # Descriptive statistics at the end of the block.
-        df_group_one = self.df[['RT', 'Trial']]
-        # Make a plot
-        
-        df_group_one = df_group_one.groupby(['Trial'], as_index=False).mean()
+        # Mean reaction time of shoot trials
+        df1 = self.df[['RT', 'Trial']]
+        df1 = df1.groupby(['Trial'], as_index=False).mean()
+        #Trials which are only a go.
+        df2 = self.df.RT.where(self.df.Trial != 0)
+        df2 = df2.dropna(axis=0)
+
+        df3 = self.df[['RT', 'Outcome']]
+        piedata = [df3.Outcome.where(df3.Outcome == 1).count(), df3.Outcome.where(df3.Outcome == 0).count()]
+
+        #LinePlot
+        # p1 = sns.lineplot(data=df2, linewidth=3)
+        # p1.set(xlabel="Trial Number", ylabel="Reaction Time (sec)", ylim=(0.2, 1))
+        # p1.axhline(0.5, color='red')
+        # plt.savefig('time.png', format='png')
+        # # visual.ImageStim(self.win, 'time.png').draw()
+        # # self.win.flip()
+        #
+        # #PiePlot
+        # labels = ['Success', 'Fail']
+        # colors = sns.color_palette('pastel')[0:2]
+        # p2 = plt.pie(piedata, labels=labels, colors=colors, autopct='%.0f%%')
+
+        #Show on the screen
 
 
         pass

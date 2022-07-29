@@ -2,7 +2,7 @@ from __future__ import absolute_import, division
 import time
 import psychopy
 from psychopy import sound, gui, visual, core, data, event
-#from playsound import playsound
+import pandas as pd
 import numpy as np  # whole numpy lib is available, prepend 'np.'
 import os  # handy system and path functions
 import sys  # to get file system encoding
@@ -24,14 +24,18 @@ p.ortegaauriol@auckland.ac.nz
 _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 
-
 class Experiment(object):
     print(os.getcwd())
     def __init__(self):
         # Arduino & Serial port configuration
         psychopy.prefs.hardware['audioLib'] = ['PTB', 'pyo', 'pygame']
+<<<<<<< HEAD
         # self.arduino = serial.Serial('COM13', 9600, timeout=0)
         # self.line = self.arduino.readline()
+=======
+        self.arduino = serial.Serial('COM7', 9600, timeout=0)
+        self.line = self.arduino.readline()
+>>>>>>> origin/master
         self.countdown_clock = core.Clock()
         self.trialClock = core.Clock()
         self.delay = []
@@ -53,6 +57,9 @@ class Experiment(object):
 
         self.nothreat = []
         self.Task()
+
+        #Panda data frame
+        self.df = pd.DataFrame({"RT": [], "Trial": [], "Shock": [], "Delay": [],"Block": [], "PCode": [], "Session": []})
 
         self.win = visual.Window(
             size= [1920, 1080],
@@ -171,12 +178,16 @@ class Experiment(object):
             self.arduino.close()
             core.quit()
         self.expInfo['date'] = data.getDateStr()
-        #dlg.Destroy()
+        header = "RT    Trial   Shock   Delay   block   code    session "
+        with open('DataFile' + str(self.expInfo['Participant code']) + str(self.expInfo['Session']) + '.txt', 'a') as b:
+            b.write(header + "\n")
+            b.close()
         return
 
     def Workflow(self):
         self.gen_trials()
         # define the instructions for the task?
+        # self.stats()
         self.runExperiment()
 
     def gen_trials(self):
@@ -415,6 +426,9 @@ class Experiment(object):
                 #Save the trials/info
                 # self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block])
                 time.sleep(3)
+            self.Break.draw()
+            self.win.flip()
+            self.waitSwitch()
 
     def savedata(self, RT, trial, shock, delay, block):
         # Save Variables into a file
@@ -423,16 +437,31 @@ class Experiment(object):
         # end trial wait time
         print('end trial wait')
 
+        #Save pandas df
+        df2 = pd.DataFrame({"RT":[RT], "Trial":[trial], "Shock":[shock], "Delay":[delay], "Block":[block], "PCode": [self.expInfo['Participant code']],
+                        "Session": [self.expInfo['Session']]})
+        pd.concat([self.df, df2])
+        # self.df.to_csv(['DataFile' + str(self.expInfo['Participant code']) + ' ' + str(self.expInfo['Session'])], index=False)
+
+
     def saveconfig(self):
         with open('config' + '.txt', 'a') as b:
             b.write('%s  \n%s  \n%s  \n%s   \n%s\n' %
                     (self.shock, self.trials, self.expInfo, self.delay, self.blocks))
 
     def stats(self):
+<<<<<<< HEAD
         #Read the saved file and do some stats with it for display.
 
         pass
 
+=======
+        # Generate block to block report stats as feedback.
+        # df = pd.read_csv('DataFile' + str(self.expInfo['Participant code']) + str(self.expInfo['Session']) + '.txt')
+        print
+        # df.groupby('name').describe().reset_index().pivot(index='name', values='score', columns='level_1')
+        pass
+>>>>>>> origin/master
 
 if __name__ == "__main__":
     #parser = ArgumentParser(description=" FPS Shooter ")
