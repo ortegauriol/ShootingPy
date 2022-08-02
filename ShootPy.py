@@ -5,12 +5,10 @@ from psychopy import sound, gui, visual, core, data, event
 import pandas as pd
 import numpy as np  # whole numpy lib is available, prepend 'np.'
 import os  # handy system and path functions
-import sys  # to get file system encoding
-import pyglet
+import matplotlib.pyplot as plt
 import math
 import serial  #connecting to the serial port (Arduino)
-from argparse import ArgumentParser
-import copy
+
 import random
 #import csv
 """
@@ -412,31 +410,62 @@ class Experiment(object):
             self.win.flip()
             self.waitSwitch()
 
-    def savedata(self, RT, trial, shock, delay, block):
-        # Save Variables into a file
-        with open('DataFile' + str(self.expInfo['Participant code']) + str(self.expInfo['Session']) + '.txt', 'a') as b:
-            b.write('\n %.4f    %s  %s  %s  %s  %s  %s	' % (RT, trial, shock, delay, block, self.expInfo['Participant code'],self.expInfo['Session']))
-        # end trial wait time
-        print('end trial wait')
-
-        #Save pandas df
-        df2 = pd.DataFrame({"RT":[RT], "Trial":[trial], "Shock":[shock], "Delay":[delay], "Block":[block], "PCode": [self.expInfo['Participant code']],
-                        "Session": [self.expInfo['Session']]})
-        pd.concat([self.df, df2])
-        # self.df.to_csv(['DataFile' + str(self.expInfo['Participant code']) + ' ' + str(self.expInfo['Session'])], index=False)
-
-
     def saveconfig(self):
         with open('config' + '.txt', 'a') as b:
             b.write('%s  \n%s  \n%s  \n%s   \n%s\n' %
                     (self.shock, self.trials, self.expInfo, self.delay, self.blocks))
 
-    def stats(self):
-        # Generate block to block report stats as feedback.
-        # df = pd.read_csv('DataFile' + str(self.expInfo['Participant code']) + str(self.expInfo['Session']) + '.txt')
-        print
-        # df.groupby('name').describe().reset_index().pivot(index='name', values='score', columns='level_1')
-        pass
+    def savedata(self, RT, trial, shock, delay, block, result):
+        # Save Variables into a file
+
+        df2 = pd.DataFrame({"RT": [RT], "Trial": [trial], "Shock": [shock], "Delay": [delay], "Block": [block],
+                            "PCode": [self.expInfo['Participant code']], "Session": [self.expInfo['Session']],
+                            "Outcome": [result]})
+        self.df = pd.concat([self.df, df2])
+        self.df.to_csv('DataFile' + str(self.expInfo['Participant code']) + '_' + str(self.expInfo['Session']) + '.csv', index=False)
+
+    def stats(self, block):
+        # Descriptive statistics at the end of the block.
+
+        # MEAN REACTION TIME OF TRIALS
+        df1 = self.df[['RT', 'Trial']]
+        df1 = df1.groupby(['Trial'], as_index=False).mean()
+        #Trials which are only a go.
+        df2 = self.df.RT.where(self.df.Trial != 0)
+        df2 = df2.dropna(axis=0)
+
+        # PIE DATA
+        df3 = self.df[['RT', 'Outcome']]
+        piedata = [df3.Outcome.where(df3.Outcome == 1).count(), df3.Outcome.where(df3.Outcome == 0).count()]
+
+        #PIE PLOT
+        plt.figure(figsize=(12, 6))  # set figure size
+        plt.xticks(family='Arial', size=12)
+        plt.yticks(family='Arial', size=12)
+        labels = ['Success', 'Fail']
+        colors = sns.color_palette('pastel')[0:2]
+        p2 = plt.pie(piedata, labels=labels, colors=colors, autopct='%.0f%%')
+        plt.savefig(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'], self.expInfo['Session']))
+        pieplot = visual.ImageStim(self.win, image=(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'],
+                                    self.expInfo['Session']) + '.png'), pos=[0, -6], units='cm', color=[1, 1, 1])
+        pieplot.draw()
+        self.win.flip()
+        time.sleep(4)
+        # LinePlot
+        plt.figure(figsize=(12, 6))
+        plt.ylabel('Reaction Time', size=20, family='Arial')  # create plot
+        plt.xlabel('Trial Number', size=20, family='Arial')
+        n = [float(i) for i in df2]
+        p1 = plt.plot(n, linewidth=3)
+        plt.xlabel("Trial Number")
+        plt.ylabel("Reaction Time (sec)")
+        plt.axhline(0.5, color='red')
+        plt.savefig(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'], self.expInfo['Session']))
+        linerplot = visual.ImageStim(self.win, image=(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'],
+                                        self.expInfo['Session']) + '.png'), pos=[0, -6], units='cm', color=[1, 1, 1])
+        linerplot.draw()
+        self.win.flip()
+        time.sleep(4)
 
 if __name__ == "__main__":
     #parser = ArgumentParser(description=" FPS Shooter ")
