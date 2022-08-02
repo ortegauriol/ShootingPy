@@ -287,7 +287,7 @@ class Experiment(object):
                 # self.win.flip()
                 self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block], self.result)
                 time.sleep(1)
-            self.stats()
+            self.stats(block)
 
     def savedata(self, RT, trial, shock, delay, block, result):
         # Save Variables into a file
@@ -298,35 +298,48 @@ class Experiment(object):
         self.df = pd.concat([self.df, df2])
         self.df.to_csv('DataFile' + str(self.expInfo['Participant code']) + '_' + str(self.expInfo['Session']) + '.csv', index=False)
 
-    def stats(self):
+    def stats(self, block):
         # Descriptive statistics at the end of the block.
-        # Mean reaction time of shoot trials
+
+        # MEAN REACTION TIME OF TRIALS
         df1 = self.df[['RT', 'Trial']]
         df1 = df1.groupby(['Trial'], as_index=False).mean()
         #Trials which are only a go.
         df2 = self.df.RT.where(self.df.Trial != 0)
         df2 = df2.dropna(axis=0)
 
+        # PIE DATA
         df3 = self.df[['RT', 'Outcome']]
         piedata = [df3.Outcome.where(df3.Outcome == 1).count(), df3.Outcome.where(df3.Outcome == 0).count()]
 
-        #LinePlot
-        # p1 = sns.lineplot(data=df2, linewidth=3)
-        # p1.set(xlabel="Trial Number", ylabel="Reaction Time (sec)", ylim=(0.2, 1))
-        # p1.axhline(0.5, color='red')
-        # plt.savefig('time.png', format='png')
-        # # visual.ImageStim(self.win, 'time.png').draw()
-        # # self.win.flip()
-        #
-        # #PiePlot
-        # labels = ['Success', 'Fail']
-        # colors = sns.color_palette('pastel')[0:2]
-        # p2 = plt.pie(piedata, labels=labels, colors=colors, autopct='%.0f%%')
-
-        #Show on the screen
-
-
-        pass
+        #PIE PLOT
+        plt.figure(figsize=(12, 6))  # set figure size
+        plt.xticks(family='Arial', size=12)
+        plt.yticks(family='Arial', size=12)
+        labels = ['Success', 'Fail']
+        colors = sns.color_palette('pastel')[0:2]
+        p2 = plt.pie(piedata, labels=labels, colors=colors, autopct='%.0f%%')
+        plt.savefig(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'], self.expInfo['Session']))
+        pieplot = visual.ImageStim(self.win, image=(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'],
+                                    self.expInfo['Session']) + '.png'), pos=[0, -6], units='cm', color=[1, 1, 1])
+        pieplot.draw()
+        self.win.flip()
+        time.sleep(4)
+        # LinePlot
+        plt.figure(figsize=(12, 6))
+        plt.ylabel('Reaction Time', size=20, family='Arial')  # create plot
+        plt.xlabel('Trial Number', size=20, family='Arial')
+        n = [float(i) for i in df2]
+        p1 = plt.plot(n, linewidth=3)
+        plt.xlabel("Trial Number")
+        plt.ylabel("Reaction Time (sec)")
+        plt.axhline(0.5, color='red')
+        plt.savefig(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'], self.expInfo['Session']))
+        linerplot = visual.ImageStim(self.win, image=(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'],
+                                        self.expInfo['Session']) + '.png'), pos=[0, -6], units='cm', color=[1, 1, 1])
+        linerplot.draw()
+        self.win.flip()
+        time.sleep(4)
 
 if __name__ == "__main__":
     sa = Experiment()

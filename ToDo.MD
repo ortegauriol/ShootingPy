@@ -1,4 +1,4 @@
-TO - DO (updated 26/07/22 12:17pm)
+TO - DO (updated 02/08/22 11:30am)
 
 Easy
 <<<<<<< HEAD
@@ -8,16 +8,14 @@ Easy
 - Figure out why shock was not working
 
 =======
-- Have the 'Break' image appear at the end of each block for ~60s followed by the 'Trigger' image 
-	Better to leave the time up to the trigger rather than a constraint, people wont get really tired during the session. 
 	
 >>>>>>> origin/master
 Develop
+>>Spoke to Arne. Agreed that keyboard version should have reduced number of images. 3 background, L & R pistol, L & R rifle, L & R phone, L & R keys.
+>> Trigger switch version has all the images (as it was originally designed).
 - Keyboard version of the experiment (with all the images) - all the images? thought that it was a reduced version of it////
 	Two versions portable and with dependencies is possible...
-	
-- Trigger switch version of the experiment only needs two different 'Go' and 'NoGo' images and three of the background images
-	got lost here in terms of what is needed for what version.....
+
 
 - Statistics at the end of each block (only if not too tedious)
 <<<<<<< HEAD
@@ -38,6 +36,6 @@ software and install it on their computer to make it easy for them to do the key
 https://docs.wxpython.org/wx.tools.img2py.html#module-wx.tools.img2py
 
 
-Dan to do in lab Thurs (28/07/22)
-- Test experiment properly
+Dan to do in lab WED (03/08/22)
+- Check EMG function, electrical stimulation, placement of electrodes for stimulation.
 >>>>>>> origin/master
