@@ -64,6 +64,7 @@ class Experiment(object):
 
         #Instructions
         self.Correct  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Correct.jpg')
+        # self.Correct  = visual.ImageStim(self.win, image= self.resource_path("\Correct.jpg"))
         self.Incorrect  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Incorrect.jpg')
         self.Instructions  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Instructions.jpg')
         self.Trigger  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Trigger.jpg')
@@ -340,6 +341,14 @@ class Experiment(object):
         linerplot.draw()
         self.win.flip()
         time.sleep(4)
+
+    def resource_path(relative_path):
+        try:
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.abspath(".")
+
+        return os.path.join(base_path, relative_path)
 
 if __name__ == "__main__":
     sa = Experiment()
