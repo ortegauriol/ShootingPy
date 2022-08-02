@@ -10,6 +10,7 @@ import random
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import sys
 
 """
 Keyboard version/branch of ShootPy.py 
@@ -63,11 +64,11 @@ class Experiment(object):
             blendMode='avg', allowGUI=False)
 
         #Instructions
-        self.Correct  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Correct.jpg')
-        # self.Correct  = visual.ImageStim(self.win, image= self.resource_path("\Correct.jpg"))
-        self.Incorrect  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Incorrect.jpg')
-        self.Instructions  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Instructions.jpg')
-        self.Trigger  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Trigger.jpg')
+        # self.Correct  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Correct.jpg')
+        self.Correct  = visual.ImageStim(self.win, image= self.resource_path('Images/Instructions' + os.sep + 'Correct.jpg'))
+        self.Incorrect  = visual.ImageStim(self.win, image=self.resource_path('Images/Instructions' + os.sep + 'Incorrect.jpg'))
+        self.Instructions  = visual.ImageStim(self.win, image=self.resource_path('Images/Instructions' + os.sep + 'Instructions.jpg'))
+        self.Trigger  = visual.ImageStim(self.win, image=self.resource_path('Images/Instructions' + os.sep + 'Trigger.jpg'))
         
         #Backgrounnd
         self.range.append(visual.ImageStim(self.win, image='Images/Background' + os.sep + 'Bedroom.jpg'))
@@ -342,7 +343,7 @@ class Experiment(object):
         self.win.flip()
         time.sleep(4)
 
-    def resource_path(relative_path):
+    def resource_path(self, relative_path):
         try:
             base_path = sys._MEIPASS
         except Exception:
