@@ -8,7 +8,6 @@ import os  # handy system and path functions
 import matplotlib.pyplot as plt
 import math
 import serial  #connecting to the serial port (Arduino)
-
 import random
 #import csv
 """
@@ -39,7 +38,7 @@ class Experiment(object):
         self.threat_gar = []
         self.threat_kit = []
         self.threat_lo = []
-
+        self.result = 0
         self.nthreat_bedroom = []
         self.nthreat_dining = []
         self.nthreat_gar = []
@@ -284,6 +283,7 @@ class Experiment(object):
             print (self.RT)
             self.electroshock()
             self.Incorrect.draw()
+            self.result = 0
             self.win.flip()
             time.sleep(1)
         elif self.RT < self.expInfo['Response End Time'] and shock == 1 and \
@@ -291,6 +291,7 @@ class Experiment(object):
             print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
             print (self.RT)
             self.electroshock()
+            self.result = 0
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
@@ -299,6 +300,9 @@ class Experiment(object):
         if self.RT > self.expInfo['Threat Response'] and trial == 1:
             print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
             print (self.RT)
+            if block == 1:
+                self.electroshock()
+            self.result = 0
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
@@ -306,7 +310,10 @@ class Experiment(object):
         elif self.RT < self.expInfo['Response End Time'] and shock >= 0 and \
                 trial == 0 and block >= 0:
             print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
-            print (self.RT)
+            print(self.RT)
+            if block == 1:
+                self.electroshock()
+            self.result = 0
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
@@ -314,8 +321,9 @@ class Experiment(object):
             # Build a classifier for the non-shock trials
             print('else')
             print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
-            print (self.RT)
+            print(self.RT)
             self.Correct.draw()
+            self.result = 1
             self.win.flip()
             time.sleep(1)
 
@@ -404,9 +412,9 @@ class Experiment(object):
 
                 self.win.flip()
                 #Save the trials/info
-                self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block])
+                self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block], self.result)
                 time.sleep(3)
-            self.stats()
+            self.stats(block)
             self.Break.draw()
             self.win.flip()
             self.waitSwitch()
@@ -444,8 +452,8 @@ class Experiment(object):
         plt.xticks(family='Arial', size=12)
         plt.yticks(family='Arial', size=12)
         labels = ['Success', 'Fail']
-        colors = sns.color_palette('pastel')[0:2]
-        p2 = plt.pie(piedata, labels=labels, colors=colors, autopct='%.0f%%')
+        #colors = sns.color_palette('pastel')[0:2]
+        p2 = plt.pie(piedata, labels=labels, autopct='%.0f%%') #colors=colors
         plt.savefig(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'], self.expInfo['Session']))
         pieplot = visual.ImageStim(self.win, image=(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'],
                                     self.expInfo['Session']) + '.png'), pos=[0, -6], units='cm', color=[1, 1, 1])
