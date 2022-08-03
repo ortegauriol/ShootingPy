@@ -406,6 +406,7 @@ class Experiment(object):
                 #Save the trials/info
                 self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block])
                 time.sleep(3)
+            self.stats()
             self.Break.draw()
             self.win.flip()
             self.waitSwitch()
