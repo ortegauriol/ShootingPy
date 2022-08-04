@@ -65,33 +65,33 @@ class Experiment(object):
 
         #Instructions
         # self.Correct  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Correct.jpg')
-        self.Correct  = visual.ImageStim(self.win, image= self.resource_path('Images/Instructions' + os.sep + 'Correct.jpg'))
-        self.Incorrect  = visual.ImageStim(self.win, image=self.resource_path('Images/Instructions' + os.sep + 'Incorrect.jpg'))
-        self.Instructions  = visual.ImageStim(self.win, image=self.resource_path('Images/Instructions' + os.sep + 'Instructions.jpg'))
-        self.Trigger  = visual.ImageStim(self.win, image=self.resource_path('Images/Instructions' + os.sep + 'Trigger.jpg'))
+        self.Correct  = visual.ImageStim(self.win, image= self.resource_path('Correct.jpg'))
+        self.Incorrect  = visual.ImageStim(self.win, image=self.resource_path('Incorrect.jpg'))
+        self.Instructions  = visual.ImageStim(self.win, image=self.resource_path('Instructions.jpg'))
+        self.Trigger  = visual.ImageStim(self.win, image=self.resource_path('Trigger.jpg'))
         
         #Backgrounnd
-        self.range.append(visual.ImageStim(self.win, image= self.resource_path('Images/Background' + os.sep + 'Bedroom.jpg')))
-        self.range.append(visual.ImageStim(self.win, image= self.resource_path('Images/Background' + os.sep + 'Lounge.jpg')))
-        self.range.append(visual.ImageStim(self.win, image= self.resource_path('Images/Background' + os.sep + 'Kitchen.jpg')))
-        self.range.append(visual.ImageStim(self.win, image= self.resource_path('Images/Background' + os.sep + 'Garage.jpg')))
-        self.range.append(visual.ImageStim(self.win, image= self.resource_path('Images/Background' + os.sep + 'Dining Room.jpg')))
+        self.range.append(visual.ImageStim(self.win, image= self.resource_path('Bedroom.jpg')))
+        self.range.append(visual.ImageStim(self.win, image= self.resource_path('Lounge.jpg')))
+        self.range.append(visual.ImageStim(self.win, image= self.resource_path('Kitchen.jpg')))
+        self.range.append(visual.ImageStim(self.win, image= self.resource_path('Garage.jpg')))
+        self.range.append(visual.ImageStim(self.win, image= self.resource_path('Dining Room.jpg')))
 
         #GO
-        self.threat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Images/go' + os.sep + 'Bedroom Machete L.jpg')))
-        self.threat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Images/go' + os.sep + 'Bedroom Machete R.jpg')))
-        self.threat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Images/go' + os.sep + 'Bedroom Pistol L.jpg')))
-        self.threat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Images/go' + os.sep + 'Bedroom Pistol R.jpg')))
-        self.threat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Images/go' + os.sep + 'Bedroom Rifle L.jpg')))
-        self.threat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Images/go' + os.sep + 'Bedroom Rifle R.jpg')))
+        self.threat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Bedroom Machete L.jpg')))
+        self.threat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Bedroom Machete R.jpg')))
+        self.threat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Bedroom Pistol L.jpg')))
+        self.threat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Bedroom Pistol R.jpg')))
+        self.threat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Bedroom Rifle L.jpg')))
+        self.threat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Bedroom Rifle R.jpg')))
 
         #NOGO
-        self.nthreat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Images/NoGo' + os.sep + 'Bedroom Cup L.jpg')))
-        self.nthreat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Images/NoGo' + os.sep + 'Bedroom Cup R.jpg')))
-        self.nthreat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Images/NoGo' + os.sep + 'Bedroom Keys L.jpg')))
-        self.nthreat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Images/NoGo' + os.sep + 'Bedroom Keys R.jpg')))
-        self.nthreat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Images/NoGo' + os.sep + 'Bedroom Phone L.jpg')))
-        self.nthreat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Images/NoGo' + os.sep + 'Bedroom Phone R.jpg')))
+        self.nthreat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Bedroom Cup L.jpg')))
+        self.nthreat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Bedroom Cup R.jpg')))
+        self.nthreat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Bedroom Keys L.jpg')))
+        self.nthreat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Bedroom Keys R.jpg')))
+        self.nthreat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Bedroom Phone L.jpg')))
+        self.nthreat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Bedroom Phone R.jpg')))
         self.Workflow()
 
     def Task(self):
