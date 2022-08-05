@@ -410,7 +410,7 @@ class Experiment(object):
                 #Classify the reaction time
                 self.classifier(shock[k], trials[k], self.blocks[block])
 
-                self.win.flip()
+                # self.win.flip()
                 #Save the trials/info
                 self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block], self.result)
                 time.sleep(3)
@@ -459,7 +459,7 @@ class Experiment(object):
                                     self.expInfo['Session']) + '.png'), pos=[0, -6], units='cm', color=[1, 1, 1])
         pieplot.draw()
         self.win.flip()
-        time.sleep(4)
+        time.sleep(8)
         # LinePlot
         plt.figure(figsize=(12, 6))
         plt.ylabel('Reaction Time', size=20, family='Arial')  # create plot
@@ -474,7 +474,7 @@ class Experiment(object):
                                         self.expInfo['Session']) + '.png'), pos=[0, -6], units='cm', color=[1, 1, 1])
         linerplot.draw()
         self.win.flip()
-        time.sleep(4)
+        time.sleep(8)
 
 if __name__ == "__main__":
     #parser = ArgumentParser(description=" FPS Shooter ")
