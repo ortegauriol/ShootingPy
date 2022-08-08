@@ -26,7 +26,7 @@ class Experiment(object):
     def __init__(self):
         # Arduino & Serial port configuration
         psychopy.prefs.hardware['audioLib'] = ['PTB', 'pyo', 'pygame']
-        self.arduino = serial.Serial('COM7', 9600, timeout=0)
+        self.arduino = serial.Serial('COM13', 9600, timeout=0)
         self.line = self.arduino.readline()
         self.countdown_clock = core.Clock()
         self.trialClock = core.Clock()
@@ -351,7 +351,7 @@ class Experiment(object):
             background = self.background[block]
             for lines in self.arduino.readline(): pass
             for k in np.arange(0, len(trials), 1):
-                print('Trial' = , k, 'Block type = ', shock)
+                print('Trial =', k, 'Block type = ', shock)
 
                 for lines in self.arduino.readline(): pass
                 self.range[background[k]].draw()
