@@ -197,7 +197,7 @@ class Experiment(object):
         if not self.expInfo['Threat Mode']:
             self.blocks = [0] * int(self.expInfo['n blocks'])
         else:
-            self.blocks = [1] * int(math.ceil(self.expInfo['n blocks']/2)) + [1] * int(math.floor(self.expInfo['n blocks']/2))
+            self.blocks = [0] * int(math.ceil(self.expInfo['n blocks']/2)) + [1] * int(math.floor(self.expInfo['n blocks']/2))
 
         # Generate the random delays / trials
         self.times = [self.expInfo['Delay_1'], self.expInfo['Delay_2'],self.expInfo['Delay_3']]
@@ -343,6 +343,7 @@ class Experiment(object):
 
         # Experiment Trial
         for block in range(self.expInfo['n blocks']):
+
             #variables in the block
             trials = self.trials[block]
             delay = self.delay[block]
@@ -350,6 +351,8 @@ class Experiment(object):
             background = self.background[block]
             for lines in self.arduino.readline(): pass
             for k in np.arange(0, len(trials), 1):
+                print('Trial' = , k, 'Block type = ', shock)
+
                 for lines in self.arduino.readline(): pass
                 self.range[background[k]].draw()
                 self.win.flip()
