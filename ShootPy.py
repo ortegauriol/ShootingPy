@@ -197,7 +197,7 @@ class Experiment(object):
         if not self.expInfo['Threat Mode']:
             self.blocks = [0] * int(self.expInfo['n blocks'])
         else:
-            self.blocks = [0] * int(math.ceil(self.expInfo['n blocks']/2)) + [1] * int(math.floor(self.expInfo['n blocks']/2))
+            self.blocks = [1] * int(math.ceil(self.expInfo['n blocks']/2)) + [1] * int(math.floor(self.expInfo['n blocks']/2))
 
         # Generate the random delays / trials
         self.times = [self.expInfo['Delay_1'], self.expInfo['Delay_2'],self.expInfo['Delay_3']]
@@ -265,7 +265,7 @@ class Experiment(object):
         return self.RT
 
     def electroshock(self):
-        print('shock')
+        print('Send Shock')
         self.arduino.write([1])
         return
 
@@ -279,53 +279,37 @@ class Experiment(object):
         # Classify for Shock
         if self.RT > self.expInfo['Threat Response'] and shock == 1 and \
                 trial == 1 and block == 1:
-            print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
-            print (self.RT)
-            self.electroshock()
             self.Incorrect.draw()
-            self.result = 0
             self.win.flip()
             time.sleep(1)
+            self.result = 0
+
         elif self.RT < self.expInfo['Response End Time'] and shock == 1 and \
                 trial == 0 and block == 1:
-            print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
-            print (self.RT)
-            self.electroshock()
-            self.result = 0
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
+            self.result = 0
 
-        #Shoot trial
+        # Shoot trial
         if self.RT > self.expInfo['Threat Response'] and trial == 1:
-            print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
-            print (self.RT)
-            if block == 1:
-                self.electroshock()
-            self.result = 0
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
+            self.result = 0
 
-        elif self.RT < self.expInfo['Response End Time'] and shock >= 0 and \
-                trial == 0 and block >= 0:
-            print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
-            print(self.RT)
-            if block == 1:
-                self.electroshock()
-            self.result = 0
+        elif self.RT < self.expInfo['Response End Time'] and trial == 0:
             self.Incorrect.draw()
             self.win.flip()
             time.sleep(1)
+            self.result = 0
+
         else:
             # Build a classifier for the non-shock trials
-            print('else')
-            print('shock = ', shock, 'trial = ', trial, 'Block = ', block)
-            print(self.RT)
             self.Correct.draw()
-            self.result = 1
             self.win.flip()
             time.sleep(1)
+            self.result = 1
 
     def runExperiment(self):
         print('Experiment')
