@@ -26,7 +26,7 @@ class Experiment(object):
     def __init__(self):
         # Arduino & Serial port configuration
         psychopy.prefs.hardware['audioLib'] = ['PTB', 'pyo', 'pygame']
-        self.arduino = serial.Serial('COM13', 9600, timeout=0)
+        self.arduino = serial.Serial('COM7', 9600, timeout=0)
         self.line = self.arduino.readline()
         self.countdown_clock = core.Clock()
         self.trialClock = core.Clock()
