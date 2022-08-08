@@ -456,7 +456,7 @@ class Experiment(object):
         p2 = plt.pie(piedata, labels=labels, autopct='%.0f%%') #colors=colors
         plt.savefig(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'], self.expInfo['Session']))
         pieplot = visual.ImageStim(self.win, image=(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'],
-                                    self.expInfo['Session']) + '.png'), pos=[0, -6], units='cm', color=[1, 1, 1])
+                                    self.expInfo['Session']) + '.png'), pos=[0, -3], units='cm', color=[1, 1, 1])
         pieplot.draw()
         self.win.flip()
         time.sleep(8)
@@ -471,7 +471,7 @@ class Experiment(object):
         plt.axhline(0.5, color='red')
         plt.savefig(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'], self.expInfo['Session']))
         linerplot = visual.ImageStim(self.win, image=(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'],
-                                        self.expInfo['Session']) + '.png'), pos=[0, -6], units='cm', color=[1, 1, 1])
+                                        self.expInfo['Session']) + '.png'), pos=[0, -3], units='cm', color=[1, 1, 1])
         linerplot.draw()
         self.win.flip()
         time.sleep(8)
