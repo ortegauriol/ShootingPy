@@ -51,7 +51,7 @@ class Experiment(object):
         self.Task()
 
         #Panda data frame
-        self.df = pd.DataFrame({"RT": [], "Trial": [], "Shock": [], "Delay": [],"Block": [], "PCode": [], "Session": []})
+        self.df = pd.DataFrame({"RT": [], "Trial": [], "Delay": [],"Threat": [], "PCode": [], "Session": [], 'Block': []})
 
         self.win = visual.Window(
             size= [1920, 1080],
@@ -170,7 +170,7 @@ class Experiment(object):
             self.arduino.close()
             core.quit()
         self.expInfo['date'] = data.getDateStr()
-        header = "RT    Trial   Shock   Delay   block   code    session "
+        header = "RT    Trial   Delay   Threat   Code    Session "
         with open('DataFile' + str(self.expInfo['Participant code']) + str(self.expInfo['Session']) + '.txt', 'a') as b:
             b.write(header + "\n")
             b.close()
@@ -215,7 +215,7 @@ class Experiment(object):
         for i in self.trials:
             self.delay.append(random.choices(self.times, weights=[1, 1, 1], k=len(i)))
             if self.expInfo['Threat Mode']:
-                self.shock.append([0]*int(len(i)/2) + [1]*int(len(i)/2))
+                self.shock.append([1]*int(len(i)/2) + [1]*int(len(i)/2))
             else:
                 self.shock.append([0] * int(len(i)))
 
@@ -229,13 +229,13 @@ class Experiment(object):
         print('Background = ', self.background)
 
     def waitSwitch(self):
-        #line = self.arduino.readline()
+        for lines in self.arduino.readline(): pass
         line = []
         print('Press Trigger to Start')
         while len(line) == 0:
             line = self.arduino.readline()
             core.wait(0.1)
-        print('Switch')
+        print('Switch Pressed')
         time.sleep(0.1)
         for lines in self.arduino.readline():pass
         return
@@ -250,6 +250,7 @@ class Experiment(object):
 
     def trigger(self):
         #line = self.arduino.readline()
+        for lines in self.arduino.readline(): pass
         line = []
         while len(line) == 0:
             line = self.arduino.readline()
@@ -267,40 +268,24 @@ class Experiment(object):
         return
 
     def emg(self):
-        print('Start EMG Synch')
         self.arduino.write([2])
         return
 
-    def classifier(self, shock, trial, block):
+    def classifier(self, trial, block):
 
         # Classify for Shock
-        if self.RT > self.expInfo['Threat Response'] and shock == 1 and \
-                trial == 1 and block == 1:
-            self.Incorrect.draw()
-            self.electroshock()
-            self.win.flip()
-            time.sleep(1)
-            self.result = 0
-
-        elif self.RT < self.expInfo['Response End Time'] and shock == 1 and \
-                trial == 0 and block == 1:
-            self.Incorrect.draw()
-            self.electroshock()
-            self.win.flip()
-            time.sleep(1)
-            self.result = 0
-
-        # Shoot trial
         if self.RT > self.expInfo['Threat Response'] and trial == 1:
             self.Incorrect.draw()
-            self.electroshock()
+            if block == 1:
+                self.electroshock()
             self.win.flip()
             time.sleep(1)
             self.result = 0
 
         elif self.RT < self.expInfo['Response End Time'] and trial == 0:
             self.Incorrect.draw()
-            self.electroshock()
+            if block == 1:
+                self.electroshock()
             self.win.flip()
             time.sleep(1)
             self.result = 0
@@ -348,12 +333,11 @@ class Experiment(object):
             #variables in the block
             trials = self.trials[block]
             delay = self.delay[block]
-            shock = self.shock[block]
             background = self.background[block]
             for lines in self.arduino.readline(): pass
             for k in np.arange(0, len(trials), 1):
 
-                print('Trial =', k, 'Threat Block? = ', self.blocks[block])
+                print('\n Trial =', k, 'Threat = ', self.blocks[block], 'Shoot = ', trials[k])
 
                 for lines in self.arduino.readline(): pass
                 self.range[background[k]].draw()
@@ -397,29 +381,30 @@ class Experiment(object):
                     if int(self.trialClock.getTime()) >= self.expInfo['Response End Time']:
                         break
                 #Classify the reaction time
-                self.classifier(shock[k], trials[k], self.blocks[block])
+                self.classifier(trials[k], self.blocks[block])
 
                 # self.win.flip()
                 #Save the trials/info
-                self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block], self.result)
+                self.savedata(self.RT, trials[k], delay[k], self.blocks[block], self.result, block)
                 time.sleep(3)
             self.stats(block)
             self.Break.draw()
             self.win.flip()
+            for lines in self.arduino.readline(): pass
             self.waitSwitch()
             for lines in self.arduino.readline(): pass
 
     def saveconfig(self):
         with open('config' + '.txt', 'a') as b:
-            b.write('%s  \n%s  \n%s  \n%s   \n%s\n' %
-                    (self.shock, self.trials, self.expInfo, self.delay, self.blocks))
+            b.write('%s  \n%s  \n%s   \n%s\n' %
+                    (self.trials, self.expInfo, self.delay, self.blocks))
 
-    def savedata(self, RT, trial, shock, delay, block, result):
+    def savedata(self, RT, trial, delay, threat, result, block):
         # Save Variables into a file
 
-        df2 = pd.DataFrame({"RT": [RT], "Trial": [trial], "Shock": [shock], "Delay": [delay], "Block": [block],
+        df2 = pd.DataFrame({"RT": [RT], "Trial": [trial], "Delay": [delay], "Threat": [threat],
                             "PCode": [self.expInfo['Participant code']], "Session": [self.expInfo['Session']],
-                            "Outcome": [result]})
+                            "Outcome": [result], "Block":[block]})
         self.df = pd.concat([self.df, df2])
         self.df.to_csv('DataFile' + str(self.expInfo['Participant code']) + '_' + str(self.expInfo['Session']) + '.csv', index=False)
 
@@ -446,7 +431,7 @@ class Experiment(object):
         p2 = plt.pie(piedata, labels=labels, autopct='%.0f%%') #colors=colors
         plt.savefig(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'], self.expInfo['Session']))
         pieplot = visual.ImageStim(self.win, image=(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'],
-                                    self.expInfo['Session']) + '.png'), pos=[0, -3], units='cm', color=[1, 1, 1])
+                                    self.expInfo['Session']) + '.png'), pos=[0, 0], units='cm', color=[1, 1, 1])
         pieplot.draw()
         self.win.flip()
         time.sleep(8)
@@ -461,7 +446,7 @@ class Experiment(object):
         plt.axhline(0.5, color='red')
         plt.savefig(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'], self.expInfo['Session']))
         linerplot = visual.ImageStim(self.win, image=(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'],
-                                        self.expInfo['Session']) + '.png'), pos=[0, -3], units='cm', color=[1, 1, 1])
+                                        self.expInfo['Session']) + '.png'), pos=[0, 0], units='cm', color=[1, 1, 1])
         linerplot.draw()
         self.win.flip()
         time.sleep(8)
