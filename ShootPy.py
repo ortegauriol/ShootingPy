@@ -178,8 +178,6 @@ class Experiment(object):
 
     def Workflow(self):
         self.gen_trials()
-        # define the instructions for the task?
-        # self.stats()
         self.runExperiment()
 
     def gen_trials(self):
@@ -238,7 +236,6 @@ class Experiment(object):
             line = self.arduino.readline()
             core.wait(0.1)
         print('Switch')
-        self.arduino.flushInput()
         time.sleep(0.1)
         for lines in self.arduino.readline():pass
         return
@@ -280,6 +277,7 @@ class Experiment(object):
         if self.RT > self.expInfo['Threat Response'] and shock == 1 and \
                 trial == 1 and block == 1:
             self.Incorrect.draw()
+            self.electroshock()
             self.win.flip()
             time.sleep(1)
             self.result = 0
@@ -287,6 +285,7 @@ class Experiment(object):
         elif self.RT < self.expInfo['Response End Time'] and shock == 1 and \
                 trial == 0 and block == 1:
             self.Incorrect.draw()
+            self.electroshock()
             self.win.flip()
             time.sleep(1)
             self.result = 0
@@ -294,12 +293,14 @@ class Experiment(object):
         # Shoot trial
         if self.RT > self.expInfo['Threat Response'] and trial == 1:
             self.Incorrect.draw()
+            self.electroshock()
             self.win.flip()
             time.sleep(1)
             self.result = 0
 
         elif self.RT < self.expInfo['Response End Time'] and trial == 0:
             self.Incorrect.draw()
+            self.electroshock()
             self.win.flip()
             time.sleep(1)
             self.result = 0
@@ -351,7 +352,8 @@ class Experiment(object):
             background = self.background[block]
             for lines in self.arduino.readline(): pass
             for k in np.arange(0, len(trials), 1):
-                print('Trial =', k, 'Block type = ', shock)
+
+                print('Trial =', k, 'Threat Block? = ', self.blocks[block])
 
                 for lines in self.arduino.readline(): pass
                 self.range[background[k]].draw()
@@ -405,6 +407,7 @@ class Experiment(object):
             self.Break.draw()
             self.win.flip()
             self.waitSwitch()
+            for lines in self.arduino.readline(): pass
 
     def saveconfig(self):
         with open('config' + '.txt', 'a') as b:
