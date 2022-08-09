@@ -286,7 +286,7 @@ class Experiment(object):
                 #Classify the reaction time
                 self.classifier(shock[k], trials[k], self.blocks[block])
                 # self.win.flip()
-                self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block], self.result)
+                # self.savedata(self.RT, trials[k], shock[k], delay[k], self.blocks[block], self.result)
                 time.sleep(1)
             self.stats(block)
 
