@@ -324,6 +324,7 @@ class Experiment(object):
                 self.win.flip()
                 time.sleep(3)
             print('End of Practice Trials')
+            self.Break.draw()
             self.win.flip()
             self.waitSwitch()
 

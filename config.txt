@@ -2,3 +2,7 @@
 {'Participant code': 0, 'Session': 0, 'Age (Years)': 0, 'Gender': 'M', 'n_go_trials (per block)': 3, 'n_stop_trials (per block)': 2, 'n blocks': 4, 'practice trials': True, 'n practice go trials': 1, 'n practice stop trials': 1, 'Full Screen': False, 'Threat Mode': True, 'Threat Response': 0.5, 'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5, 'date': '2022-08-09_13h10.37.080'}  
 [[1.5, 2, 1.5, 1.5, 1.5], [2, 2, 2, 2, 2.5], [2.5, 2.5, 1.5, 2.5, 2], [2.5, 2.5, 2, 1.5, 2.5]]   
 [1, 1, 0, 0]
+[[1, 1, 1, 0], [1, 1, 1, 0]]  
+{'Participant code': 0, 'Session': 0, 'Age (Years)': 0, 'Gender': 'M', 'n_go_trials (per block)': 3, 'n_stop_trials (per block)': 1, 'n blocks': 2, 'practice trials': True, 'n practice go trials': 1, 'n practice stop trials': 1, 'Full Screen': False, 'Threat Mode': True, 'Threat Response': 0.5, 'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5, 'date': '2022-08-09_13h24.29.582'}  
+[[1.5, 1.5, 2.5, 2.5], [2, 2.5, 1.5, 1.5]]   
+[0, 1]
