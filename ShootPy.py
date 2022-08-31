@@ -15,7 +15,7 @@ import random
 created by criminal mastermind
 p.ortegaauriol@auckland.ac.nz
 06/22
-
+ base_url: https://sarawia.duckdns.org
 """
 
 _thisDir = os.path.dirname(os.path.abspath(__file__))
