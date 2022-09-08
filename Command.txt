@@ -1,0 +1,6 @@
+pyinstaller --onefile --windowed --add-data "Correct.jpg;." --add-data "Bedroom Cup L.jpg;." --add-data "Bedroom Cup R.jpg;." --add-data "Bedroom Keys L.jpg;." --add-data "Bedroom Keys R.jpg;." --add-data "Bedroom Machete L.jpg;." --add-data "Bedroom Machete R.jpg;." --add-data "Bedroom Phone L.jpg;." --add-data "Bedroom Phone R.jpg;." --add-data "Bedroom Pistol L.jpg;." --add-data "Bedroom Pistol R.jpg;." --add-data "Bedroom Rifle L.jpg;." --add-data "Bedroom Rifle R.jpg;." --add-data "Bedroom.jpg;." --add-data "Break.jpg;." --add-data "Dining Room.jpg;." --add-data "Garage.jpg;." --add-data "Incorrect.jpg;." --add-data "Instructions.jpeg;." --add-data "Kitchen.jpg;." --add-data "Lounge.jpg;." --add-data "Trigger.jpg;." ShootKeyPortable.py
+
+
+
+pyinstaller --onefile --windowed --add-data 'src/README.txt;.' ShootKey.py
+

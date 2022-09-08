@@ -66,11 +66,10 @@ class Experiment(object):
         #Instructions
         # self.Correct  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Correct.jpg')
         self.Break_keyboard = visual.ImageStim(self.win, image=self.resource_path('Break_keyboard.jpeg'))
-        self.Break = visual.ImageStim(self.win, image=self.resource_path('Break.jpg'))
-        self.Correct = visual.ImageStim(self.win, image= self.resource_path('Correct.jpg'))
-        self.Incorrect = visual.ImageStim(self.win, image=self.resource_path('Incorrect.jpg'))
-        self.Instructions = visual.ImageStim(self.win, image=self.resource_path('Instructions.jpg'))
-        self.Trigger = visual.ImageStim(self.win, image=self.resource_path('Trigger.jpg'))
+        self.Correct  = visual.ImageStim(self.win, image= self.resource_path('Correct.jpg'))
+        self.Incorrect  = visual.ImageStim(self.win, image=self.resource_path('Incorrect.jpg'))
+        self.Instructions  = visual.ImageStim(self.win, image=self.resource_path('Instructions.jpg'))
+        self.Trigger  = visual.ImageStim(self.win, image=self.resource_path('Trigger.jpg'))
         
         #Backgrounnd
         self.range.append(visual.ImageStim(self.win, image= self.resource_path('Bedroom.jpg')))
@@ -92,8 +91,6 @@ class Experiment(object):
         self.threat_kit.append(visual.ImageStim(self.win, image=self.resource_path('Kitchen Pistol R.jpg')))
         self.threat_kit.append(visual.ImageStim(self.win, image=self.resource_path('Kitchen Rifle L.jpg')))
         self.threat_kit.append(visual.ImageStim(self.win, image=self.resource_path('Kitchen Rifle R.jpg')))
-
-
 
         #NOGO
         self.nthreat_bedroom.append(visual.ImageStim(self.win, image=self.resource_path('Bedroom Keys L.jpg')))
@@ -118,10 +115,15 @@ class Experiment(object):
         self.expInfo = {'Participant code': 3,'Session':00, 'Age (Years)': 00, 'Gender': ['M', 'F', 'Other'],
                         'n_go_trials (per block)': 40, 'n_stop_trials (per block)': 40, 'n blocks': 4,
                           'practice trials': False, 'n practice go trials': 0,
-                          'n practice stop trials': 0, 'Full Screen': True, 'Keyboard': True,
-                        'Threat Mode': False, 'Threat Response': 0.5,
+                          'n practice stop trials': 0, 'Full Screen': False, 'Keyboard': True,
+                        'Threat Mode': True, 'Threat Response': 0.5,
                         'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5}
         self.expName = 'Shoot'
+        # dlg = gui.DlgFromDict(dictionary=self.expInfo, title='Participant Information', tip=None)
+        # if dlg.OK == False:
+        #     print('Closing port and exit')
+        #     self.arduino.close()
+        #     core.quit()
         self.expInfo['date'] = data.getDateStr()
         return
 
@@ -179,7 +181,6 @@ class Experiment(object):
 
     def wait_keyboard(self):
         kb = keyboard.Keyboard()
-        for keys in kb.getKeys(['space']): pass
         for keys in kb.getKeys(['space']):
             pass
         keys = []
@@ -190,17 +191,16 @@ class Experiment(object):
 
     def keyboarding(self):
         kb = keyboard.Keyboard()
-        for keys in kb.getKeys(['space']):pass
+        for keys in kb.getKeys(['space']):
+            pass
         keys = []
         while True:
             keys = kb.getKeys(['space'], waitRelease=False, clear=True)
             if keys:
                 self.RT = self.trialClock.getTime()
-                for keys in kb.getKeys(['space']): pass
                 return self.RT
             elif int(self.trialClock.getTime()) >= self.expInfo['Response End Time']:
                 self.RT = self.trialClock.getTime()
-                for keys in kb.getKeys(['space']): pass
                 return
 
     def classifier(self, trial):
@@ -230,11 +230,11 @@ class Experiment(object):
         self.Instructions.draw()
         self.win.flip()
         self.wait_keyboard()
-        kb = keyboard.Keyboard()
+
         # Training Trials
         if self.train_trial:
             for k in np.arange(0, len(self.train_trial), 1):
-                for keys in kb.getKeys(['space']):pass
+                # for lines in self.arduino.readline(): pass
                 print('Practice Trial')
                 self.range[0].draw()
                 self.win.flip()
@@ -262,12 +262,10 @@ class Experiment(object):
             background = self.background[block]
             # for lines in self.arduino.readline(): pass
             for k in np.arange(0, len(trials), 1):
-
                 self.range[background[k]].draw()
                 self.win.flip()
                 time.sleep(delay[k])
 
-                #given the background and trial type show an according threat/no threat image/
                 #given the background and trial type show an according threat/no threat image/
                 if trials[k] == 0:
                     if background[k] == 0:
@@ -301,7 +299,7 @@ class Experiment(object):
                 self.savedata(self.RT, trials[k], delay[k], self.blocks[block], self.result, block)
                 time.sleep(2)
             self.stats(block)
-            for keys in kb.getKeys(['space']): pass
+            #for keys in kb.getKeys(['space']): pass
             self.Break_keyboard.draw()
             self.win.flip()
             self.wait_keyboard()
@@ -311,7 +309,7 @@ class Experiment(object):
 
         df2 = pd.DataFrame({"RT": [RT], "Trial": [trial], "Delay": [delay], "Threat": [threat],
                             "PCode": [self.expInfo['Participant code']], "Session": [self.expInfo['Session']],
-                            "Outcome": [result], "Block":[block]})
+                            "Outcome": [result], "Block": [block]})
         self.df = pd.concat([self.df, df2])
         # self.df.to_csv('DataFile' + str(self.expInfo['Participant code']) + '_' + str(self.expInfo['Session']) + '.csv', index=False)
 
@@ -338,22 +336,22 @@ class Experiment(object):
         p2 = plt.pie(piedata, labels=labels, colors=colors, autopct='%.0f%%')
         plt.savefig(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'], self.expInfo['Session']))
         pieplot = visual.ImageStim(self.win, image=(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'],
-                                    self.expInfo['Session']) + '.png'), pos=[0, 0], units='cm', color=[1, 1, 1])
+                                    self.expInfo['Session']) + '.png'), pos=[0, -6], units='cm', color=[1, 1, 1])
         pieplot.draw()
         self.win.flip()
         time.sleep(4)
-        #  LinePlot
+        # LinePlot
         plt.figure(figsize=(12, 6))
         plt.ylabel('Reaction Time', size=20, family='Arial')  # create plot
         plt.xlabel('Trial Number', size=20, family='Arial')
         n = [float(i) for i in df2]
-        plt.plot(n, linewidth=3)
+        p1 = plt.plot(n, linewidth=3)
         plt.xlabel("Trial Number")
         plt.ylabel("Reaction Time (sec)")
         plt.axhline(0.5, color='red')
         plt.savefig(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'], self.expInfo['Session']))
         linerplot = visual.ImageStim(self.win, image=(_thisDir + '\Plot_%s_%s' % (self.expInfo['Participant code'],
-                                        self.expInfo['Session']) + '.png'), pos=[0, 0], units='cm', color=[1, 1, 1])
+                                        self.expInfo['Session']) + '.png'), pos=[0, -6], units='cm', color=[1, 1, 1])
         linerplot.draw()
         self.win.flip()
         time.sleep(4)
