@@ -65,6 +65,7 @@ class Experiment(object):
 
         #Instructions
         # self.Correct  = visual.ImageStim(self.win, image='Images/Instructions' + os.sep + 'Correct.jpg')
+        self.Break_keyboard = visual.ImageStim(self.win, image=self.resource_path('Break_keyboard.jpeg'))
         self.Break = visual.ImageStim(self.win, image=self.resource_path('Break.jpg'))
         self.Correct = visual.ImageStim(self.win, image= self.resource_path('Correct.jpg'))
         self.Incorrect = visual.ImageStim(self.win, image=self.resource_path('Incorrect.jpg'))
@@ -115,17 +116,12 @@ class Experiment(object):
     def Task(self):
         # Participant information
         self.expInfo = {'Participant code': 3,'Session':00, 'Age (Years)': 00, 'Gender': ['M', 'F', 'Other'],
-                        'n_go_trials (per block)': 60, 'n_stop_trials (per block)': 20, 'n blocks': 4,
+                        'n_go_trials (per block)': 40, 'n_stop_trials (per block)': 40, 'n blocks': 4,
                           'practice trials': False, 'n practice go trials': 0,
                           'n practice stop trials': 0, 'Full Screen': True, 'Keyboard': True,
                         'Threat Mode': False, 'Threat Response': 0.5,
                         'Response End Time': 2, 'Delay_1': 1.5, 'Delay_2': 2, 'Delay_3': 2.5}
         self.expName = 'Shoot'
-        # dlg = gui.DlgFromDict(dictionary=self.expInfo, title='Participant Information', tip=None)
-        # if dlg.OK == False:
-        #     print('Closing port and exit')
-        #     self.arduino.close()
-        #     core.quit()
         self.expInfo['date'] = data.getDateStr()
         return
 
@@ -305,9 +301,9 @@ class Experiment(object):
                 self.savedata(self.RT, trials[k], delay[k], self.blocks[block], self.result, block)
                 time.sleep(2)
             self.stats(block)
-            self.Break.draw()
-            self.win.flip()
             for keys in kb.getKeys(['space']): pass
+            self.Break_keyboard.draw()
+            self.win.flip()
             self.wait_keyboard()
 
     def savedata(self, RT, trial, delay, threat, result, block):
